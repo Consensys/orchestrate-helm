@@ -1,0 +1,81 @@
+{{- if .Values.txListener.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "orchestrate.txListener.fullname" . }}
+  labels:
+    {{- include "orchestrate.txListener.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "orchestrate.txListener.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "orchestrate.txListener.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/tx-listener/configmap-env.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/tx-listener/secret-env.yaml") . | sha256sum }}
+        {{- if .Values.txListener.podAnnotations}}
+          {{- toYaml .Values.txListener.podAnnotations | nindent 8 }}
+        {{- end}}
+    spec:
+      {{- if .Values.global.imageCredentials }}
+      imagePullSecrets:
+        - name: {{ include "orchestrate.imagePullSecretName" . }}
+      {{- end }}
+      serviceAccountName: {{ include "orchestrate.txListener.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.txListener.podSecurityContext | nindent 8 }}
+      containers:
+        - name: tx-listener
+          securityContext:
+            {{- toYaml .Values.txListener.securityContext | nindent 12 }}
+          image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "orchestrate.txListener.fullname" . }}-envmap
+            - secretRef:
+                name: {{ include "orchestrate.txListener.fullname" . }}-secretmap
+                optional: true
+          command:
+            - /go/bin/main
+          args:
+            - tx-listener
+            - run
+          ports:
+            - name: http-metrics
+              containerPort: 8082
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http-metrics
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http-metrics
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            {{- toYaml .Values.txListener.resources | nindent 12 }}
+      {{- with .Values.txListener.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.txListener.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.txListener.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

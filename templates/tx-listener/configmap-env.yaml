@@ -1,0 +1,20 @@
+{{- if .Values.txListener.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orchestrate.txListener.fullname" . }}-envmap
+  labels:
+    {{- include "orchestrate.txListener.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+data:
+{{- range $key,$value := .Values.global.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- range $key,$value := .Values.txListener.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+  API_URL: {{ .Values.txListener.environment.API_URL | default (include "orchestrate.api.defaultHTTPURL" .) | quote }}
+  API_METRICS_URL: {{ .Values.txListener.environment.API_METRICS_URL | default (include "orchestrate.api.defaultMetricsURL" .) | quote }}
+{{- end }}

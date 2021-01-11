@@ -1,0 +1,21 @@
+Get Orchestrate API URL by running these commands:
+{{- if .Values.api.ingress.enabled }}
+{{- range $host := .Values.api.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.api.ingress.tls }}s{{ end }}://{{ $host.host }}{{ . }}
+  {{- end }}
+{{- end }}
+{{- else if contains "NodePort" .Values.api.service.type }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "orchestrate.api.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+{{- else if contains "LoadBalancer" .Values.api.service.type }}
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "orchestrate.api.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "orchestrate.api.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo http://$SERVICE_IP:{{ .Values.api.service.http.port }}
+{{- else if contains "ClusterIP" .Values.api.service.type }}
+  kubectl port-forward -n {{ .Release.Namespace }} service/{{ include "orchestrate.api.fullname" . }} {{ .Values.api.service.http.port }}:{{ .Values.api.service.http.port }}
+  
+  Orchestrate API will be reachable in http://127.0.0.1:{{ .Values.api.service.http.port }} to use 
+{{- end }}

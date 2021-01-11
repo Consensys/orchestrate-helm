@@ -1,0 +1,23 @@
+{{- if .Values.api.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orchestrate.api.fullname" . }}
+  labels:
+    {{- include "orchestrate.api.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+spec:
+  type: {{ .Values.api.service.type }}
+  ports:
+    - port: {{ .Values.api.service.http.port }}
+      targetPort: http-svc
+      protocol: TCP
+      name: http-svc
+    - port: {{ .Values.api.service.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    {{- include "orchestrate.api.selectorLabels" . | nindent 4 }}
+{{- end }}

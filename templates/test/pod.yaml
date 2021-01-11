@@ -1,0 +1,52 @@
+{{- if .Values.test.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ template "orchestrate.fullname" . }}-test
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+    "helm.sh/hook": "test-success"
+    checksum/config: {{ include (print $.Template.BasePath "/test/configmap-env.yaml") . | sha256sum }}
+    checksum/secrets: {{ include (print $.Template.BasePath "/test/secret-env.yaml") . | sha256sum }}
+spec:
+  {{- if .Values.global.imageCredentials }}
+  imagePullSecrets:
+    - name: {{ template "orchestrate.imagePullSecretName" . }}
+  {{- end }}
+  {{- if .Values.test.report.enabled }}
+  initContainers:
+  - name: init
+    image: alpine:3.12
+    command: ["/bin/sh","-c"]
+    args: 
+      - touch /report/output/report.json;
+        chmod 766 /report/output/report.json;
+    volumeMounts:
+      - mountPath: /report/output
+        name: report
+  {{- end }}
+  restartPolicy: Never
+  containers:
+  - name: "{{ template "orchestrate.fullname" . }}-test"
+    image: "{{ .Values.test.image.repository }}:{{ .Values.test.image.tag }}"
+    command:
+      - /go/bin/main
+    args:
+      - {{ .Values.test.cmd }}
+      - run
+    envFrom:
+      - configMapRef:
+          name: {{ include "orchestrate.fullname" . }}-test-envmap
+      - secretRef:
+          name: {{ include "orchestrate.fullname" . }}-test-secretmap
+          optional: true
+  {{- if .Values.test.report.enabled }}
+    volumeMounts:
+      - name: report
+        mountPath: /report/output
+  volumes:
+    - name: report
+      persistentVolumeClaim:
+        claimName: {{ template "orchestrate.fullname" . }}-test-report-pvc
+  {{- end }}
+{{- end }}

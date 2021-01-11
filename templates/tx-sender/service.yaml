@@ -1,0 +1,19 @@
+{{- if .Values.txSender.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orchestrate.txSender.fullname" . }}
+  labels:
+    {{- include "orchestrate.txSender.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+spec:
+  type: {{ .Values.txSender.service.type }}
+  ports:
+    - port: {{ .Values.txSender.service.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    {{- include "orchestrate.txSender.selectorLabels" . | nindent 4 }}
+{{- end }}

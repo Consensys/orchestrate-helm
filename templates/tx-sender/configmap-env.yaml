@@ -1,0 +1,22 @@
+{{- if .Values.txSender.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orchestrate.txSender.fullname" . }}-envmap
+  labels:
+    {{- include "orchestrate.txSender.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+data:
+{{- range $key,$value := .Values.global.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- range $key,$value := .Values.txSender.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+  API_URL: {{ .Values.txSender.environment.API_URL | default (include "orchestrate.api.defaultHTTPURL" .) | quote }}
+  API_METRICS_URL: {{ .Values.txSender.environment.API_METRICS_URL | default (include "orchestrate.api.defaultMetricsURL" .) | quote }}
+  KEY_MANAGER_URL: {{ .Values.txSender.environment.KEY_MANAGER_URL | default (include "orchestrate.keyManager.defaultHTTPURL" .) | quote }}
+  KEY_MANAGER_METRICS_URL: {{ .Values.txSender.environment.KEY_MANAGER_METRICS_URL | default (include "orchestrate.keyManager.defaultMetricsURL" .) | quote }}
+{{- end }}

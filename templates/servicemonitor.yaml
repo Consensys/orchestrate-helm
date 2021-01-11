@@ -1,0 +1,22 @@
+{{- if .Values.global.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "orchestrate.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: 
+    {{- include "orchestrate.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels: {{- include "orchestrate.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - port: http-metrics 
+      {{- if .Values.global.serviceMonitor.interval }}
+      interval: {{ .Values.global.serviceMonitor.interval }}
+      {{- end }}
+{{- end }}

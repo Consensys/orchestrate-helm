@@ -1,0 +1,19 @@
+{{- if .Values.txListener.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orchestrate.txListener.fullname" . }}
+  labels:
+    {{- include "orchestrate.txListener.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+spec:
+  type: {{ .Values.txListener.service.type }}
+  ports:
+    - port: {{ .Values.txListener.service.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    {{- include "orchestrate.txListener.selectorLabels" . | nindent 4 }}
+{{- end }}

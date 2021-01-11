@@ -1,0 +1,64 @@
+orbs:
+  helm: circleci/helm@1.2.0
+
+version: 2.1
+
+executors:
+  alpine:
+    docker:
+      - image: circleci/python:3.9
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - lint:
+          filters:
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)$/
+            branches:
+              only: /.*/
+      - push:
+          requires:
+            - lint
+          filters:
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)$/
+            branches:
+              ignore: /.*/
+
+jobs:
+  lint:
+    executor: alpine
+    steps:
+      - init
+      - run:
+          name: helm lint
+          command: helm lint
+  push:
+    executor: alpine
+    steps:
+      - init
+      - run:
+          name: Helm package
+          command: |
+            helm package .
+      - run:
+          name: Install cloudsmith CLI
+          command: |
+            pip install cloudsmith-cli
+      - run:
+          name: Push
+          command: |
+            cloudsmith push helm consensys/helm ./orchestrate-${CIRCLE_TAG}.tgz
+
+commands:
+  init:
+    description: "Install"
+    steps:
+      - helm/install-helm-client:
+          version: "v3.3.4"
+      - run:
+          name: Cleanup
+          command: rm ./*
+      - checkout

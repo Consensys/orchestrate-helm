@@ -1,0 +1,20 @@
+{{- if .Values.api.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orchestrate.api.fullname" . }}-envmap
+  labels:
+    {{- include "orchestrate.api.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+data:
+{{- range $key,$value := .Values.global.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- range $key,$value := .Values.api.environment }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+  KEY_MANAGER_URL: {{ .Values.api.environment.KEY_MANAGER_URL | default (include "orchestrate.keyManager.defaultHTTPURL" .) | quote }}
+  KEY_MANAGER_METRICS_URL: {{ .Values.api.environment.KEY_MANAGER_METRICS_URL | default (include "orchestrate.keyManager.defaultMetricsURL" .) | quote }}
+{{- end }}

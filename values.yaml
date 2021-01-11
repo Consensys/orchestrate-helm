@@ -1,0 +1,227 @@
+# Default values for orchestrate.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  labels: {}
+
+  environment: {}
+  environmentSecrets: {}
+  
+  imageCredentials:
+    create: true
+    name: existing-secret
+    registry: docker.cloudsmith.io
+    username: someone
+    password: sillyness
+
+  image:
+    repository: docker.cloudsmith.io/consensys/docker-private/orchestrate
+    tag: v21.1.0
+    pullPolicy: IfNotPresent
+
+  ## String to partially override prometheus.fullname template (will maintain the release name)
+  ##
+  # nameOverride:
+
+  ## String to fully override prometheus.fullname template
+  ##
+  # fullnameOverride:
+
+  serviceMonitor:
+    enabled: false
+
+
+
+api:
+  enabled: true
+
+  replicaCount: 1
+
+  ingress:
+    enabled: false
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: orchestrate.local
+        http:
+          paths:
+            - path: /
+              backend:
+                servicePort: http-svc
+
+    tls: []
+    #  - secretName: orchestrate-tls
+    #    hosts:
+    #      - orchestrate.local
+
+  service:
+    type: ClusterIP
+    http:
+      port: 8081
+    metrics:
+      port: 8082
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+  #  limits:
+  #  cpu: 300m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 32Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  environment: {}
+  environmentSecrets: {}
+
+  initMigrate: 
+    enabled: true
+    backoffLimit: 6
+  migrate:
+    enabled: true
+  copyDB:
+    enabled: false
+    backoffLimit: 6
+
+keyManager:
+  enabled: true
+
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    http:
+      port: 8081
+    metrics:
+      port: 8082
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+  #  limits:
+  #  cpu: 300m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 32Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  environment: {}
+  environmentSecrets: {}
+
+  migrate: false
+  
+  vaultAgent:
+    enabled: false
+    role: "client"
+    image:
+      repository: vault
+      tag: 1.6.0
+
+txListener:
+  enabled: true
+
+  service:
+    type: ClusterIP
+    metrics:
+      port: 8082
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  environment: {}
+  environmentSecrets: {}
+
+txSender:
+  enabled: true
+
+  replicaCount: 1
+  
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  service:
+    type: ClusterIP
+    metrics:
+      port: 8082
+
+  environment: {}
+  environmentSecrets: {}
+
+
+test:
+  enabled: false
+  image:
+    repository: docker.cloudsmith.io/consensys/docker-private/orchestrate-e2e
+    tag: v21.1.0
+  cmd: e2e
+  environment: {}
+  environmentSecrets: {}
+  report:
+    enabled: false
+    # storageClass:
