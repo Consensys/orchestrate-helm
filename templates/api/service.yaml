@@ -9,6 +9,10 @@ metadata:
     {{- include "orchestrate.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.api.service.type }}
+  sessionAffinity: {{ .Values.api.service.sessionAffinity }}
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: {{ .Values.api.service.sessionAffinityTimeout }}
   ports:
     - port: {{ .Values.api.service.http.port }}
       targetPort: http-svc
