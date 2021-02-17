@@ -7,7 +7,9 @@ global:
 
   environment: {}
   environmentSecrets: {}
-  
+  # 'existingSecretName' specifies name of externally created secret
+  # existingSecretName:
+
   imageCredentials:
     create: true
     name: existing-secret
@@ -30,7 +32,6 @@ global:
 
   serviceMonitor:
     enabled: false
-
 
 
 api:
@@ -103,8 +104,10 @@ api:
 
   environment: {}
   environmentSecrets: {}
+  # 'existingSecretName' specifies name of externally created secret
+  # existingSecretName:
 
-  initMigrate: 
+  initMigrate:
     enabled: true
     backoffLimit: 6
   migrate:
@@ -112,6 +115,7 @@ api:
   copyDB:
     enabled: false
     backoffLimit: 6
+
 
 keyManager:
   enabled: true
@@ -163,15 +167,18 @@ keyManager:
 
   environment: {}
   environmentSecrets: {}
+  # 'existingSecretName' specifies name of externally created secret
+  # existingSecretName:
 
   migrate: false
-  
+
   vaultAgent:
     enabled: false
     role: "client"
     image:
       repository: vault
       tag: 1.6.0
+
 
 txListener:
   enabled: true
@@ -192,12 +199,15 @@ txListener:
 
   environment: {}
   environmentSecrets: {}
+  # 'existingSecretName' specifies name of externally created secret
+  # existingSecretName:
+
 
 txSender:
   enabled: true
 
   replicaCount: 1
-  
+
   serviceAccount:
     # Specifies whether a service account should be created
     create: false
@@ -214,6 +224,8 @@ txSender:
 
   environment: {}
   environmentSecrets: {}
+  # 'existingSecretName' specifies name of externally created secret
+  # existingSecretName:
 
 
 test:
