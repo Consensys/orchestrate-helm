@@ -7,8 +7,8 @@ global:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecretName' specifies name of externally created secret
-  # existingSecretName:
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
 
   imageCredentials:
     create: true
@@ -104,8 +104,8 @@ api:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecretName' specifies name of externally created secret
-  # existingSecretName:
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
 
   initMigrate:
     enabled: true
@@ -167,8 +167,8 @@ keyManager:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecretName' specifies name of externally created secret
-  # existingSecretName:
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
 
   migrate: false
 
@@ -199,8 +199,8 @@ txListener:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecretName' specifies name of externally created secret
-  # existingSecretName:
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
 
 
 txSender:
@@ -224,8 +224,8 @@ txSender:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecretName' specifies name of externally created secret
-  # existingSecretName:
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
 
 
 test:

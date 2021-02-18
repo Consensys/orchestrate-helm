@@ -47,14 +47,14 @@ spec:
               name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
               optional: true
           {{- end }}
-          {{- if .Values.global.existingSecretName }}
+          {{- if .Values.global.existingSecret }}
           - secretRef:
-              name: {{ .Values.global.existingSecretName }}
+              name: {{ .Values.global.existingSecret }}
               optional: true
           {{- end }}
-          {{- if .Values.keyManager.existingSecretName }}
+          {{- if .Values.keyManager.existingSecret }}
           - secretRef:
-              name: {{ .Values.keyManager.existingSecretName }}
+              name: {{ .Values.keyManager.existingSecret }}
               optional: true
           {{- end }}
         volumeMounts:
@@ -83,14 +83,14 @@ spec:
               name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
               optional: true
           {{- end }}
-          {{- if .Values.global.existingSecretName }}
+          {{- if .Values.global.existingSecret }}
           - secretRef:
-              name: {{ .Values.global.existingSecretName }}
+              name: {{ .Values.global.existingSecret }}
               optional: true
           {{- end }}
-          {{- if .Values.keyManager.existingSecretName }}
+          {{- if .Values.keyManager.existingSecret }}
           - secretRef:
-              name: {{ .Values.keyManager.existingSecretName }}
+              name: {{ .Values.keyManager.existingSecret }}
               optional: true
           {{- end }}
         volumeMounts:
@@ -113,14 +113,14 @@ spec:
                 name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
                 optional: true
             {{- end }}
-            {{- if .Values.global.existingSecretName }}
+            {{- if .Values.global.existingSecret }}
             - secretRef:
-                name: {{ .Values.global.existingSecretName }}
+                name: {{ .Values.global.existingSecret }}
                 optional: true
             {{- end }}
-            {{- if .Values.keyManager.existingSecretName }}
+            {{- if .Values.keyManager.existingSecret }}
             - secretRef:
-                name: {{ .Values.keyManager.existingSecretName }}
+                name: {{ .Values.keyManager.existingSecret }}
                 optional: true
             {{- end }}
           command:

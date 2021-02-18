@@ -52,14 +52,14 @@ spec:
                 name: {{ include "orchestrate.api.fullname" . }}-secretmap
                 optional: true
             {{- end }}
-            {{- if .Values.global.existingSecretName }}
+            {{- if .Values.global.existingSecret }}
             - secretRef:
-                name: {{ .Values.global.existingSecretName }}
+                name: {{ .Values.global.existingSecret }}
                 optional: true
             {{- end }}
-            {{- if .Values.api.existingSecretName }}
+            {{- if .Values.api.existingSecret }}
             - secretRef:
-                name: {{ .Values.api.existingSecretName }}
+                name: {{ .Values.api.existingSecret }}
                 optional: true
             {{- end }}
       {{- end }}
@@ -77,14 +77,14 @@ spec:
                 name: {{ include "orchestrate.api.fullname" . }}-secretmap
                 optional: true
             {{- end }}
-            {{- if .Values.global.existingSecretName }}
+            {{- if .Values.global.existingSecret }}
             - secretRef:
-                name: {{ .Values.global.existingSecretName }}
+                name: {{ .Values.global.existingSecret }}
                 optional: true
             {{- end }}
-            {{- if .Values.api.existingSecretName }}
+            {{- if .Values.api.existingSecret }}
             - secretRef:
-                name: {{ .Values.api.existingSecretName }}
+                name: {{ .Values.api.existingSecret }}
                 optional: true
             {{- end }}
           command:

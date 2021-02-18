@@ -45,14 +45,14 @@ spec:
                 name: {{ include "orchestrate.txListener.fullname" . }}-secretmap
                 optional: true
             {{- end }}
-            {{- if .Values.global.existingSecretName }}
+            {{- if .Values.global.existingSecret }}
             - secretRef:
-                name: {{ .Values.global.existingSecretName }}
+                name: {{ .Values.global.existingSecret }}
                 optional: true
             {{- end }}
-            {{- if .Values.txListener.existingSecretName }}
+            {{- if .Values.txListener.existingSecret }}
             - secretRef:
-                name: {{ .Values.txListener.existingSecretName }}
+                name: {{ .Values.txListener.existingSecret }}
                 optional: true
             {{- end }}
           command:
