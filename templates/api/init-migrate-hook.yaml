@@ -72,9 +72,16 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
+            {{- if .Values.api.environmentSecrets }}
             - secretRef:
                 name: {{ include "orchestrate.api.fullname" . }}-hook-secretmap
                 optional: true
+            {{- end }}
+            {{- if .Values.api.existingSecret }}
+            - secretRef:
+                name: {{ .Values.api.existingSecret }}
+                optional: true
+            {{- end }}
 {{- end }}
 {{- if and .Values.api.enabled .Values.api.copyDB.enabled .Values.api.copyDB.params }}
 {{ $global := . }}
@@ -131,5 +138,5 @@ spec:
             - secretRef:
                 name: {{ include "orchestrate.api.fullname" $global }}-secretmap
                 optional: true
-{{- end }}      
+{{- end }}
 {{- end }}
