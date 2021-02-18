@@ -42,9 +42,21 @@ spec:
         envFrom:
           - configMapRef:
               name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
+          {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
           - secretRef:
               name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
               optional: true
+          {{- end }}
+          {{- if .Values.global.existingSecret }}
+          - secretRef:
+              name: {{ .Values.global.existingSecret }}
+              optional: true
+          {{- end }}
+          {{- if .Values.keyManager.existingSecret }}
+          - secretRef:
+              name: {{ .Values.keyManager.existingSecret }}
+              optional: true
+          {{- end }}
         volumeMounts:
           - name: vault-token
             mountPath: /vault/token
@@ -66,9 +78,21 @@ spec:
         envFrom:
           - configMapRef:
               name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
+          {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
           - secretRef:
               name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
               optional: true
+          {{- end }}
+          {{- if .Values.global.existingSecret }}
+          - secretRef:
+              name: {{ .Values.global.existingSecret }}
+              optional: true
+          {{- end }}
+          {{- if .Values.keyManager.existingSecret }}
+          - secretRef:
+              name: {{ .Values.keyManager.existingSecret }}
+              optional: true
+          {{- end }}
         volumeMounts:
           - name: vault-token
             mountPath: /vault/token
@@ -84,9 +108,21 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
+            {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
             - secretRef:
                 name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
                 optional: true
+            {{- end }}
+            {{- if .Values.global.existingSecret }}
+            - secretRef:
+                name: {{ .Values.global.existingSecret }}
+                optional: true
+            {{- end }}
+            {{- if .Values.keyManager.existingSecret }}
+            - secretRef:
+                name: {{ .Values.keyManager.existingSecret }}
+                optional: true
+            {{- end }}
           command:
             - /go/bin/main
           args:
@@ -113,7 +149,7 @@ spec:
           volumeMounts:
             - name: vault-token
               mountPath: /vault/token
-      {{- end }}            
+      {{- end }}
       {{- if .Values.keyManager.vaultAgent.enabled }}
       volumes:
         - name: vault-token

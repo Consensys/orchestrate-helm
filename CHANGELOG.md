@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.0.1 (Unreleased)
+## v1.0.1 (2021-02-18)
 
  * Add sticky sessions for the API cache
+ * Add ability to specify externally created secrets
 
 ## v1.0.0 (2021-01-25)
 

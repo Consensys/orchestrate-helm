@@ -40,9 +40,21 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.txListener.fullname" . }}-envmap
+            {{- if or .Values.txListener.environmentSecrets .Values.global.environmentSecrets }}
             - secretRef:
                 name: {{ include "orchestrate.txListener.fullname" . }}-secretmap
                 optional: true
+            {{- end }}
+            {{- if .Values.global.existingSecret }}
+            - secretRef:
+                name: {{ .Values.global.existingSecret }}
+                optional: true
+            {{- end }}
+            {{- if .Values.txListener.existingSecret }}
+            - secretRef:
+                name: {{ .Values.txListener.existingSecret }}
+                optional: true
+            {{- end }}
           command:
             - /go/bin/main
           args:
