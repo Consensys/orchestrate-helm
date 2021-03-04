@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.2 (2021-03-05)
+
+ * Run Vault Agent as sidecar container instead in initContainer only. The Vault Agent will be responsible to renew the vault token for the key manager. Ability to wrap-token instead of plaintext with `keyManager.vaultAgent.config.wrapTTL`
+
+
 ## v1.0.1 (2021-02-18)
 
  * Add sticky sessions for the API cache

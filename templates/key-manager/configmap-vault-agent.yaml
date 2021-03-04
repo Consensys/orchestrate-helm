@@ -10,15 +10,15 @@ metadata:
     {{- include "orchestrate.annotations" . | nindent 4 }}
 data:
   agent-config.hcl: |
-    exit_after_auth = true
     auto_auth {
       method "kubernetes" {
-       mount_path = "auth/kubernetes"
-       config = {
-        role = "{{ .Values.keyManager.vaultAgent.role }}"
-       }
+        mount_path = "auth/kubernetes"
+        config = {
+          role = "{{ .Values.keyManager.vaultAgent.role }}"
+        }
       }
       sink "file" {
+        wrap_ttl = "{{ .Values.keyManager.vaultAgent.config.wrapTTL }}"
         config = {
           path = "/vault/token/.vault-token"
         }

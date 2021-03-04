@@ -78,7 +78,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.labels`                    | Labels to add to all deploye                                                                             | `{}`                                                        |
 | `global.environment`               | Common environment variables for the API, Key Manager, Tx sender, Tx listener                            | `{}`                                                        |
 | `global.environmentSecrets`        | Common environment variables (as Kubernetes secrets)  for the API, Key Manager, Tx sender, Tx listener   | `{}`                                                        |
-| `global.existingSecret`        | If specified, extra environment variables will be added from externally created secret                   | `nil`                                                       |
+| `global.existingSecret`            | If specified, extra environment variables will be added from externally created secret                   | `nil`                                                       |
 | `global.imageCredentials.create`   | If true, create a secret containing the image credentials                                                | `false`                                                     |
 | `global.imageCredentials.name`     | Name of the secret                                                                                       | `existing-secret`                                           |
 | `global.imageCredentials.registry` | Docker registry where Orchestrate images are stored                                                      | `docker.cloudsmith.io`                                      |
@@ -120,7 +120,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.affinity`                                           | Affinity for pod assignment                                                                                            | `{}`                |
 | `api.environment`                                        | Environment variables passed to Orchestrate API containers                                                             | `{}`                |
 | `api.environmentSecrets`                                 | Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`                |
-| `api.existingSecret`                                 | If specified, extra environment variables will be added from externally created secret                                 | `nil`               |
+| `api.existingSecret`                                     | If specified, extra environment variables will be added from externally created secret                                 | `nil`               |
 | `api.initMigrate.enabled`                                | Run migration initialization job                                                                                       | `true`              |
 | `api.initMigrate.backoffLimit`                           | Number of retries before considering the initialization migration initialization as failed                             | `6`                 |
 | `api.migrate`                                            | Run migration script                                                                                                   | `true`              |
@@ -161,12 +161,13 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `keyManager.affinity`                    | Affinity for pod assignment                                                                                            | `{}`        |
 | `keyManager.environment`                 | Environment variables passed to Orchestrate keyManager containers                                                      | `{}`        |
 | `keyManager.environmentSecrets`          | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
-| `keyManager.existingSecret`          | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
+| `keyManager.existingSecret`              | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
 | `keyManager.migrate`                     | Run import keys from Vault formated with Orchestrate v2.5.X to Orchestrate Vault plugin (used in v21.1.X)              | `false`     |
 | `keyManager.vaultAgent.enabled`          | Run Vault Agent to retrieve the Key Manager client token from Hashicorp Vault                                          | `false`     |
 | `keyManager.vaultAgent.role`             | Role eligible to retrieve a token                                                                                      | `client`    |
 | `keyManager.vaultAgent.image.repository` | Hashicorp Vault image                                                                                                  | `vault`     |
-| `keyManager.vaultAgent.image.tag`        | Hashicorp Vault tag                                                                                                    | `1.6.0`     |
+| `keyManager.vaultAgent.image.tag`        | Hashicorp Vault tag                                                                                                    | `1.6.2`     |
+| `keyManager.vaultAgent.config.wrapTTL`   | Response-wrapped TTL, see https://www.vaultproject.io/docs/agent/autoauth                                              | `3m`        |
 
 ### Tx Sender parameters
 
@@ -189,7 +190,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `txSender.affinity`                   | Affinity for pod assignment                                                                                            | `{}`        |
 | `txSender.environment`                | Environment variables passed to Orchestrate Tx Sender containers                                                       | `{}`        |
 | `txSender.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
-| `txSender.existingSecret`         | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
+| `txSender.existingSecret`             | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
 
 ### Tx Lisener parameters
 
@@ -212,7 +213,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `txListener.affinity`                   | Affinity for pod assignment                                                                                            | `{}`        |
 | `txListener.environment`                | Environment variables passed to Orchestrate Tx Listener containers                                                     | `{}`        |
 | `txListener.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
-| `txListener.existingSecret`         | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
+| `txListener.existingSecret`             | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
 
 ### Test parameters
 
