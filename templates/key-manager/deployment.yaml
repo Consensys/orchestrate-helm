@@ -16,6 +16,7 @@ spec:
       labels:
         {{- include "orchestrate.keyManager.selectorLabels" . | nindent 8 }}
       annotations:
+        checksum/vault-agent-config: {{ include (print $.Template.BasePath "/key-manager/configmap-vault-agent.yaml") . | sha256sum }}
         checksum/config: {{ include (print $.Template.BasePath "/key-manager/configmap-env.yaml") . | sha256sum }}
         checksum/secrets: {{ include (print $.Template.BasePath "/key-manager/secret-env.yaml") . | sha256sum }}
         {{- if .Values.keyManager.podAnnotations}}
@@ -29,77 +30,35 @@ spec:
       serviceAccountName: {{ include "orchestrate.keyManager.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.keyManager.podSecurityContext | nindent 8 }}
-      initContainers:
-      {{- if .Values.keyManager.vaultAgent.enabled }}
-      - name: vault-token
-        securityContext:
-          {{- toYaml .Values.keyManager.securityContext | nindent 12 }}
-        image: "{{ .Values.keyManager.vaultAgent.image.repository }}:{{ .Values.keyManager.vaultAgent.image.tag }}"
-        args:
-          - "agent"
-          - "-config"
-          - "/vault/config/agent-config.hcl"
-        envFrom:
-          - configMapRef:
-              name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
-          {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
-          - secretRef:
-              name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
-              optional: true
-          {{- end }}
-          {{- if .Values.global.existingSecret }}
-          - secretRef:
-              name: {{ .Values.global.existingSecret }}
-              optional: true
-          {{- end }}
-          {{- if .Values.keyManager.existingSecret }}
-          - secretRef:
-              name: {{ .Values.keyManager.existingSecret }}
-              optional: true
-          {{- end }}
-        volumeMounts:
-          - name: vault-token
-            mountPath: /vault/token
-          - name: vault-config
-            mountPath: /vault/config
-      {{- end }}
-      {{- if .Values.keyManager.migrate }}
-      - name: migrate-import-secrets
-        securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
-        image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
-        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
-        command:
-          - /go/bin/main
-        args:
-          - key-manager
-          - migrate
-          - import-secrets
-        envFrom:
-          - configMapRef:
-              name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
-          {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
-          - secretRef:
-              name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
-              optional: true
-          {{- end }}
-          {{- if .Values.global.existingSecret }}
-          - secretRef:
-              name: {{ .Values.global.existingSecret }}
-              optional: true
-          {{- end }}
-          {{- if .Values.keyManager.existingSecret }}
-          - secretRef:
-              name: {{ .Values.keyManager.existingSecret }}
-              optional: true
-          {{- end }}
-        volumeMounts:
-          - name: vault-token
-            mountPath: /vault/token
-          - name: vault-config
-            mountPath: /vault/config
-      {{- end }}
       containers:
+        {{- if .Values.keyManager.vaultAgent.enabled }}
+        - name: vault-agent
+          securityContext:
+            capabilities:
+              add:
+              - IPC_LOCK
+          image: "{{ .Values.keyManager.vaultAgent.image.repository }}:{{ .Values.keyManager.vaultAgent.image.tag }}"
+          args:
+            - "agent"
+            - "-config"
+            - "/vault/config/agent-config.hcl"
+          env:
+            - name: SKIP_CHOWN
+              value: "true"
+          envFrom:
+            - configMapRef:
+                name: {{ include "orchestrate.keyManager.fullname" . }}-envmap
+            {{- if or .Values.keyManager.environmentSecrets .Values.global.environmentSecrets }}
+            - secretRef:
+                name: {{ include "orchestrate.keyManager.fullname" . }}-secretmap
+                optional: true
+            {{- end }}
+          volumeMounts:
+            - name: vault-token
+              mountPath: /vault/token
+            - name: vault-config
+              mountPath: /vault/config
+        {{- end }}
         - name: key-manager
           securityContext:
             {{- toYaml .Values.keyManager.securityContext | nindent 12 }}
@@ -145,16 +104,15 @@ spec:
               port: http-metrics
           resources:
             {{- toYaml .Values.keyManager.resources | nindent 12 }}
-      {{- if .Values.keyManager.vaultAgent.enabled }}
+          {{- if .Values.keyManager.vaultAgent.enabled }}
           volumeMounts:
             - name: vault-token
               mountPath: /vault/token
-      {{- end }}
+          {{- end }}
       {{- if .Values.keyManager.vaultAgent.enabled }}
       volumes:
         - name: vault-token
           emptyDir:
-            medium: Memory
             sizeLimit: 1M
         - name: vault-config
           configMap:

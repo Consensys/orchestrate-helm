@@ -177,8 +177,9 @@ keyManager:
     role: "client"
     image:
       repository: vault
-      tag: 1.6.0
-
+      tag: 1.6.2
+    config:
+      wrapTTL: "3m"
 
 txListener:
   enabled: true
