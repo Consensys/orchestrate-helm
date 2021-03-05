@@ -179,7 +179,7 @@ keyManager:
       repository: vault
       tag: 1.6.2
     config:
-      wrapTTL: "3m"
+      wrapTTL: ""
 
 txListener:
   enabled: true

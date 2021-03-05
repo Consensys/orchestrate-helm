@@ -167,7 +167,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `keyManager.vaultAgent.role`             | Role eligible to retrieve a token                                                                                      | `client`    |
 | `keyManager.vaultAgent.image.repository` | Hashicorp Vault image                                                                                                  | `vault`     |
 | `keyManager.vaultAgent.image.tag`        | Hashicorp Vault tag                                                                                                    | `1.6.2`     |
-| `keyManager.vaultAgent.config.wrapTTL`   | Response-wrapped TTL, see https://www.vaultproject.io/docs/agent/autoauth                                              | `3m`        |
+| `keyManager.vaultAgent.config.wrapTTL`   | Response-wrapped TTL, see https://www.vaultproject.io/docs/agent/autoauth                                              | ``          |
 
 ### Tx Sender parameters
 
