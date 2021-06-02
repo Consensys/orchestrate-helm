@@ -3,7 +3,7 @@ apiVersion: v2
 description: Helm chart for Orchestrate
 name: orchestrate
 type: application
-version: 1.0.3
+version: 1.0.4
 home: https://docs.orchestrate.consensys.net/
 icon: https://docs.orchestrate.consensys.net/en/stable/images/logo.svg
 maintainers:
