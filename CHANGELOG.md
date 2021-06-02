@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.3 (2021-06-02)
+
+ * Update default image repository to `docker.consensys.net`
+ * Bump default image tag to `v21.1.5`
+  
 ## v1.0.2 (2021-03-05)
 
  * Run Vault Agent as sidecar container instead in initContainer only. The Vault Agent will be responsible to renew the vault token for the key manager. Ability to wrap-token instead of plaintext with `keyManager.vaultAgent.config.wrapTTL`

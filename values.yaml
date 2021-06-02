@@ -13,13 +13,13 @@ global:
   imageCredentials:
     create: true
     name: existing-secret
-    registry: docker.cloudsmith.io
+    registry: docker.consensys.net
     username: someone
     password: sillyness
 
   image:
-    repository: docker.cloudsmith.io/consensys/docker-private/orchestrate
-    tag: v21.1.0
+    repository: docker.consensys.net/priv/orchestrate
+    tag: v21.1.5
     pullPolicy: IfNotPresent
 
   ## String to partially override prometheus.fullname template (will maintain the release name)
@@ -232,8 +232,8 @@ txSender:
 test:
   enabled: false
   image:
-    repository: docker.cloudsmith.io/consensys/docker-private/orchestrate-e2e
-    tag: v21.1.0
+    repository: docker.consensys.net/priv/orchestrate-e2e
+    tag: v21.1.5
   cmd: e2e
   environment: {}
   environmentSecrets: {}

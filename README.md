@@ -81,11 +81,11 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.existingSecret`            | If specified, extra environment variables will be added from externally created secret                   | `nil`                                                       |
 | `global.imageCredentials.create`   | If true, create a secret containing the image credentials                                                | `false`                                                     |
 | `global.imageCredentials.name`     | Name of the secret                                                                                       | `existing-secret`                                           |
-| `global.imageCredentials.registry` | Docker registry where Orchestrate images are stored                                                      | `docker.cloudsmith.io`                                      |
+| `global.imageCredentials.registry` | Docker registry where Orchestrate images are stored                                                      | `docker.consensys.net`                                      |
 | `global.imageCredentials.username` | Username of the registry                                                                                 | `someone`                                                   |
 | `global.imageCredentials.password` | Password of the registry                                                                                 | `sillyness`                                                 |
-| `global.image.repository`          | Path to Orchestrate image                                                                                | `docker.cloudsmith.io/consensys/docker-private/orchestrate` |
-| `global.image.tag`                 | Orchestrate image tag                                                                                    | `v21.1.0`                                                   |
+| `global.image.repository`          | Path to Orchestrate image                                                                                | `docker.consensys.net/priv/orchestrate` |
+| `global.image.tag`                 | Orchestrate image tag                                                                                    | `v21.1.5`                                                   |
 | `global.image.pullPolicy`          | Orchestrate image pull policy                                                                            | `IfNotPresent`                                              |
 | `global.serviceMonitor.enabled`    | If true, create a ServiceMonior for prometheus operator                                                  | `false`                                                     |
 
@@ -220,8 +220,8 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | Parameter                  | Description                                                                        | Default                                                         |
 |----------------------------|------------------------------------------------------------------------------------|-----------------------------------------------------------------|
 | `test.enabled`             | Deploy Orchestrate tests                                                           | `false`                                                         |
-| `test.image.repository`    | Path to Orchestrate test image                                                     | `docker.cloudsmith.io/consensys/docker-private/orchestrate-e2e` |
-| `test.image.tag`           | Orchestrate test image tag                                                         | `v21.1.0`                                                       |
+| `test.image.repository`    | Path to Orchestrate test image                                                     | `docker.consensys.net/priv/orchestrate-e2e` |
+| `test.image.tag`           | Orchestrate test image tag                                                         | `v21.1.5`                                                       |
 | `test.cmd`                 | Orchestrate test command                                                           | `e2e`                                                           |
 | `test.environment`         | Environment variables passed to Orchestrate test container                         | `{}`                                                            |
 | `test.environmentSecrets`  | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | `{}`                                                            |
@@ -236,7 +236,7 @@ $ helm install orchestrate \
                helm-consensys/orchestrate
 ```
 
-The above command sets the credentials to access the Orchestrate Docker repository (default docker.cloudsmith.io).
+The above command sets the credentials to access the Orchestrate Docker repository (default docker.consensys.net).
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
