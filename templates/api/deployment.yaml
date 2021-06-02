@@ -31,8 +31,8 @@ spec:
       serviceAccountName: {{ include "orchestrate.api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
-      initContainers:
       {{- if .Values.api.migrate.enabled }}
+      initContainers:
         - name: migrate-up
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

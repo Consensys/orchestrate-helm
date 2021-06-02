@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.4 (2021-06-02)
+### 🛠 Bug fixes
+ * Wrap initContainers into `{{- if .Values.api.migrate.enabled }}` to avoid error in case its value is `false`
+
 ## v1.0.3 (2021-06-02)
 
  * Update default image repository to `docker.consensys.net`
