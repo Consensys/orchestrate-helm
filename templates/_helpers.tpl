@@ -101,10 +101,8 @@ meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 Common labels
 */}}
 {{- define "orchestrate.labels" -}}
-app.kubernetes.io/name: {{ include "orchestrate.name" . }}
 helm.sh/chart: {{ include "orchestrate.chart" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
 {{ include "orchestrate.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
