@@ -24,7 +24,7 @@ secure and reliable applications on Ethereum blockchains.
 
 ## Introduction
 
-This chart bootstraps an [Orchestrate](https://github.com/bitnami/bitnami-docker-airflow) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps an [Orchestrate](https://docs.orchestrate.consensys.net/) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -138,36 +138,6 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.copyDB.params.transactionScheduler.database`        | Postgres database name storing transaction scheduler tables from Orchestrate v2.5.X                                    |                     |
 | `api.copyDB.params.transactionScheduler.username`        | Postgres username                                                                                                      |                     |
 | `api.copyDB.params.transactionScheduler.password`        | Postgres password                                                                                                      |                     |
-
-### Key Manager parameters
-
-| Parameter                                | Description                                                                                                            | Default     |
-|------------------------------------------|------------------------------------------------------------------------------------------------------------------------|-------------|
-| `keyManager.enabled`                     | Deploy Key Manager                                                                                                     | `true`      |
-| `keyManager.replicaCount`                | Number of Orchestrate Key Manager replicas                                                                             | `1`         |
-| `keyManager.service.type`                | Kubernetes Service type                                                                                                | `ClusterIP` |
-| `keyManager.service.http.port`           | Orchestrate Key Manager port                                                                                           | `8081`      |
-| `keyManager.service.metrics.port`        | Orchestrate Key Manager metrics port                                                                                   | `8082`      |
-| `keyManager.serviceAccount.create`       | If true, create a service account                                                                                      | `false`     |
-| `keyManager.serviceAccount.annotations`  | Annotations for service account                                                                                        | `{}`        |
-| `keyManager.serviceAccount.name`         | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `keyManager.podAnnotations`              | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
-| `keyManager.podSecurityContext`          | Pod security context                                                                                                   | `{}`        |
-| `keyManager.securityContext`             | Container security context                                                                                             | `{}`        |
-| `keyManager.resources.limits`            | The resources limits for Orchestrate keyManager containers                                                             | `{}`        |
-| `keyManager.resources.requests`          | The requested resources for Orchestrate keyManager containers                                                          | `{}`        |
-| `keyManager.nodeSelector`                | Node labels for pod assignment                                                                                         | `{}`        |
-| `keyManager.tolerations`                 | Tolerations for pod assignment                                                                                         | `[]`        |
-| `keyManager.affinity`                    | Affinity for pod assignment                                                                                            | `{}`        |
-| `keyManager.environment`                 | Environment variables passed to Orchestrate keyManager containers                                                      | `{}`        |
-| `keyManager.environmentSecrets`          | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
-| `keyManager.existingSecret`              | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
-| `keyManager.migrate`                     | Run import keys from Vault formated with Orchestrate v2.5.X to Orchestrate Vault plugin (used in v21.1.X)              | `false`     |
-| `keyManager.vaultAgent.enabled`          | Run Vault Agent to retrieve the Key Manager client token from Hashicorp Vault                                          | `false`     |
-| `keyManager.vaultAgent.role`             | Role eligible to retrieve a token                                                                                      | `client`    |
-| `keyManager.vaultAgent.image.repository` | Hashicorp Vault image                                                                                                  | `vault`     |
-| `keyManager.vaultAgent.image.tag`        | Hashicorp Vault tag                                                                                                    | `1.6.2`     |
-| `keyManager.vaultAgent.config.wrapTTL`   | Response-wrapped TTL, see https://www.vaultproject.io/docs/agent/autoauth                                              | ``          |
 
 ### Tx Sender parameters
 

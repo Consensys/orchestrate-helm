@@ -3,9 +3,14 @@ apiVersion: v2
 description: Helm chart for Orchestrate
 name: orchestrate
 type: application
-version: 1.0.4
+version: 2.0.0
 home: https://docs.orchestrate.consensys.net/
 icon: https://docs.orchestrate.consensys.net/en/stable/images/logo.svg
 maintainers:
   - name: christian.tran
 appVersion: 21.1.5
+dependencies:
+- condition: quorumkeymanager.enabled
+  name: quorumkeymanager
+  version: "0.1.0"
+  repository: "file://../../quorum-key-manager-helm"

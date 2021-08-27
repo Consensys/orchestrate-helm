@@ -29,11 +29,6 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-api" (include "orchestrate.name" .) -}}
 {{- end }}
 
-{{/* Name suffixed with keyManager */}}
-{{- define "orchestrate.keyManager.name" -}}
-{{- printf "%s-key-manager" (include "orchestrate.name" .) -}}
-{{- end }}
-
 {{/* Name suffixed with tx-listener */}}
 {{- define "orchestrate.txListener.name" -}}
 {{- printf "%s-tx-listener" (include "orchestrate.name" .) -}}
@@ -48,11 +43,6 @@ If release name contains chart name it will be used as a full name.
 {{/* Fullname suffixed with api */}}
 {{- define "orchestrate.api.fullname" -}}
 {{- printf "%s-api" (include "orchestrate.fullname" .) -}}
-{{- end }}
-
-{{/* Fullname suffixed with keyManager */}}
-{{- define "orchestrate.keyManager.fullname" -}}
-{{- printf "%s-key-manager" (include "orchestrate.fullname" .) -}}
 {{- end }}
 
 {{/* Fullname suffixed with tx-listener */}}
@@ -120,14 +110,6 @@ app.kubernetes.io/component: api
 {{- end -}}
 
 {{/*
-Labels for keyManager
-*/}}
-{{- define "orchestrate.keyManager.labels" -}}
-{{ include "orchestrate.labels" . }}
-app.kubernetes.io/component: key-manager
-{{- end -}}
-
-{{/*
 Labels for tx-listener
 */}}
 {{- define "orchestrate.txListener.labels" -}}
@@ -160,14 +142,6 @@ app.kubernetes.io/component: api
 {{- end -}}
 
 {{/*
-SelectorLabels for keyManager
-*/}}
-{{- define "orchestrate.keyManager.selectorLabels" -}}
-{{ include "orchestrate.selectorLabels" . }}
-app.kubernetes.io/component: key-manager
-{{- end -}}
-
-{{/*
 SelectorLabels for tx-listener
 */}}
 {{- define "orchestrate.txListener.selectorLabels" -}}
@@ -183,7 +157,6 @@ SelectorLabels for tx-sender
 app.kubernetes.io/component: tx-sender
 {{- end -}}
 
-
 {{/*
 Define serviceAccountName name for api
 */}}
@@ -192,18 +165,6 @@ Define serviceAccountName name for api
 {{- default (include "orchestrate.api.fullname" .) .Values.api.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.api.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-
-{{/*
-Define serviceAccountName name for keyManager
-*/}}
-{{- define "orchestrate.keyManager.serviceAccountName" -}}
-{{- if .Values.keyManager.serviceAccount.create }}
-{{- default (include "orchestrate.keyManager.fullname" .) .Values.keyManager.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.keyManager.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
@@ -229,16 +190,6 @@ Define serviceAccountName name for tx-sender
 {{- end }}
 {{- end }}
 
-{{/* Default key manager HTTP URL */}}
-{{- define "orchestrate.keyManager.defaultHTTPURL" -}}
-{{- printf "http://%s:%d" (include "orchestrate.keyManager.fullname" .) (int .Values.keyManager.service.http.port) -}}
-{{- end }}
-
-{{/* Default key manager Metrics URL */}}
-{{- define "orchestrate.keyManager.defaultMetricsURL" -}}
-{{- printf "http://%s:%d" (include "orchestrate.keyManager.fullname" .) (int .Values.keyManager.service.metrics.port) -}}
-{{- end }}
-
 {{/* Default api HTTP URL */}}
 {{- define "orchestrate.api.defaultHTTPURL" -}}
 {{- printf "http://%s:%d" (include "orchestrate.api.fullname" .) (int .Values.api.service.http.port) -}}
@@ -257,4 +208,27 @@ Define serviceAccountName name for tx-sender
 {{/* Default txSender Metrics URL */}}
 {{- define "orchestrate.txSender.defaultMetricsURL" -}}
 {{- printf "http://%s:%d" (include "orchestrate.txSender.fullname" .) (int .Values.txSender.service.metrics.port) -}}
+{{- end }}
+
+{{/*
+Create a default fully qualified quorumkeymanager name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "orchestrate.quorumkeymanager.fullname" -}}
+{{- if .Values.quorumkeymanager.fullnameOverride -}}
+{{- .Values.quorumkeymanager.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default "quorumkeymanager" .Values.quorumkeymanager.nameOverride -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/* Default quorum key manager HTTP URL */}}
+{{- define "orchestrate.quorumkeymanager.defaultHTTPURL" -}}
+{{- printf "http://%s:%d" (include "orchestrate.quorumkeymanager.fullname" .) (int .Values.quorumkeymanager.service.http.port) -}}
+{{- end }}
+
+{{/* Default quorum key manager Metrics URL */}}
+{{- define "orchestrate.quorumkeymanager.defaultMetricsURL" -}}
+{{- printf "http://%s:%d" (include "orchestrate.quorumkeymanager.fullname" .) (int .Values.quorumkeymanager.service.metrics.port) -}}
 {{- end }}

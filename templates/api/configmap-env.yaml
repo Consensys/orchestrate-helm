@@ -15,6 +15,6 @@ data:
 {{- range $key,$value := .Values.api.environment }}
   {{ $key }}: {{ $value | quote }}
 {{- end }}
-  KEY_MANAGER_URL: {{ .Values.api.environment.KEY_MANAGER_URL | default (include "orchestrate.keyManager.defaultHTTPURL" .) | quote }}
-  KEY_MANAGER_METRICS_URL: {{ .Values.api.environment.KEY_MANAGER_METRICS_URL | default (include "orchestrate.keyManager.defaultMetricsURL" .) | quote }}
+  KEY_MANAGER_URL: {{ .Values.api.environment.KEY_MANAGER_URL | default (include "orchestrate.quorumkeymanager.defaultHTTPURL" .) | quote }}
+  KEY_MANAGER_METRICS_URL: {{ .Values.api.environment.KEY_MANAGER_METRICS_URL | default (include "orchestrate.quorumkeymanager.defaultMetricsURL" .) | quote }}
 {{- end }}

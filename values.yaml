@@ -14,8 +14,8 @@ global:
     create: true
     name: existing-secret
     registry: docker.consensys.net
-    username: someone
-    password: sillyness
+    username: cs-ops
+    password: 08a92b86c9643ea30cd323b0dcfbe0275341e930
 
   image:
     repository: docker.consensys.net/priv/orchestrate
@@ -116,71 +116,6 @@ api:
     enabled: false
     backoffLimit: 6
 
-
-keyManager:
-  enabled: true
-
-  replicaCount: 1
-
-  service:
-    type: ClusterIP
-    http:
-      port: 8081
-    metrics:
-      port: 8082
-
-  serviceAccount:
-    # Specifies whether a service account should be created
-    create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: ""
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-  # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
-
-  resources: {}
-  #  limits:
-  #  cpu: 300m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 32Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  environment: {}
-  environmentSecrets: {}
-  # 'existingSecret' specifies name of externally created secret
-  # existingSecret:
-
-  migrate: false
-
-  vaultAgent:
-    enabled: false
-    role: "client"
-    image:
-      repository: vault
-      tag: 1.6.2
-    config:
-      wrapTTL: ""
-
 txListener:
   enabled: true
 
@@ -240,3 +175,6 @@ test:
   report:
     enabled: false
     # storageClass:
+
+quorumkeymanager:
+  enabled: true
