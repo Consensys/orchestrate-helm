@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.5 (2021-08-27)
+### 🛠 Bug fixes
+ * Remove duplicated labels in helpers for kutomize v4
+
 ## v1.0.4 (2021-06-02)
 ### 🛠 Bug fixes
  * Wrap initContainers into `{{- if .Values.api.migrate.enabled }}` to avoid error in case its value is `false`
