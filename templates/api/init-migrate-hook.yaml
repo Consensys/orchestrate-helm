@@ -83,7 +83,3 @@ spec:
                 optional: true
             {{- end }}
 {{- end }}
-{{- if and .Values.api.enabled .Values.api.copyDB.enabled .Values.api.copyDB.params }}
-{{ $global := . }}
-{{- range $key, $val :=  .Values.api.copyDB.params }}
-{{- end }}
