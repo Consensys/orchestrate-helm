@@ -112,10 +112,6 @@ api:
     backoffLimit: 6
   migrate:
     enabled: true
-  copyDB:
-    enabled: false
-    backoffLimit: 6
-
 
 keyManager:
   enabled: true

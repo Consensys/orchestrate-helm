@@ -124,20 +124,6 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.initMigrate.enabled`                                | Run migration initialization job                                                                                       | `true`              |
 | `api.initMigrate.backoffLimit`                           | Number of retries before considering the initialization migration initialization as failed                             | `6`                 |
 | `api.migrate`                                            | Run migration script                                                                                                   | `true`              |
-| `api.copyDB.enabled`                                     | Run copy db job to migrate databases from Orchesrate v2.5.X Postgres databases to Orchestrate v21.1.X API database     | `false`             |
-| `api.copyDB.backoffLimit`                                | Number of retries before considering the copy db as failed                                                             | `6`                 |
-| `api.copyDB.params.chainRegistry.postgresAddress`        | Endpoint of Postgres database storing chain registry tables from Orchestrate v2.5.X                                    |                     |
-| `api.copyDB.params.chainRegistry.database`               | Postgres database name storing chain registry tables from Orchestrate v2.5.X                                           |                     |
-| `api.copyDB.params.chainRegistry.username`               | Postgres username                                                                                                      |                     |
-| `api.copyDB.params.chainRegistry.password`               | Postgres password                                                                                                      |                     |
-| `api.copyDB.params.contractRegistry.postgresAddress`     | Endpoint of Postgres database storing contract registry tables from Orchestrate v2.5.X                                 |                     |
-| `api.copyDB.params.contractRegistry.database`            | Postgres database name storing contract registry tables from Orchestrate v2.5.X                                        |                     |
-| `api.copyDB.params.contractRegistry.username`            | Postgres username                                                                                                      |                     |
-| `api.copyDB.params.contractRegistry.password`            | Postgres password                                                                                                      |                     |
-| `api.copyDB.params.transactionScheduler.postgresAddress` | Endpoint of Postgres database storing transaction scheduler tables from Orchestrate v2.5.X                             |                     |
-| `api.copyDB.params.transactionScheduler.database`        | Postgres database name storing transaction scheduler tables from Orchestrate v2.5.X                                    |                     |
-| `api.copyDB.params.transactionScheduler.username`        | Postgres username                                                                                                      |                     |
-| `api.copyDB.params.transactionScheduler.password`        | Postgres password                                                                                                      |                     |
 
 ### Key Manager parameters
 
