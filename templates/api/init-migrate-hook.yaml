@@ -68,7 +68,7 @@ spec:
           args:
             - api
             - migrate
-            - init
+            - up
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
