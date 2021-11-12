@@ -113,17 +113,11 @@ api:
   migrate:
     enabled: true
 
-keyManager:
+qkm:
   enabled: true
-
-  replicaCount: 1
-
-  service:
-    type: ClusterIP
-    http:
-      port: 8081
-    metrics:
-      port: 8082
+  proto: https
+  fullname: "quorumkeymanager"
+  port: 8080
 
 txListener:
   enabled: true

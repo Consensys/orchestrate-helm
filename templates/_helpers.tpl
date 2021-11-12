@@ -29,10 +29,7 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-api" (include "orchestrate.name" .) -}}
 {{- end }}
 
-{{/* Name suffixed with keyManager */}}
-{{- define "orchestrate.keyManager.name" -}}
-{{- printf "%s-key-manager" (include "orchestrate.name" .) -}}
-{{- end }}
+
 
 {{/* Name suffixed with tx-listener */}}
 {{- define "orchestrate.txListener.name" -}}
@@ -50,10 +47,6 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-api" (include "orchestrate.fullname" .) -}}
 {{- end }}
 
-{{/* Fullname suffixed with keyManager */}}
-{{- define "orchestrate.keyManager.fullname" -}}
-{{- printf "%s-key-manager" (include "orchestrate.fullname" .) -}}
-{{- end }}
 
 {{/* Fullname suffixed with tx-listener */}}
 {{- define "orchestrate.txListener.fullname" -}}
@@ -118,11 +111,11 @@ app.kubernetes.io/component: api
 {{- end -}}
 
 {{/*
-Labels for keyManager
+Labels for QuorumKeyManager
 */}}
-{{- define "orchestrate.keyManager.labels" -}}
+{{- define "qkm.labels" -}}
 {{ include "orchestrate.labels" . }}
-app.kubernetes.io/component: key-manager
+app.kubernetes.io/component: quorum-key-manager
 {{- end -}}
 
 {{/*
@@ -158,11 +151,11 @@ app.kubernetes.io/component: api
 {{- end -}}
 
 {{/*
-SelectorLabels for keyManager
+SelectorLabels for QuorumKeyManager
 */}}
-{{- define "orchestrate.keyManager.selectorLabels" -}}
+{{- define "qkm.selectorLabels" -}}
 {{ include "orchestrate.selectorLabels" . }}
-app.kubernetes.io/component: key-manager
+app.kubernetes.io/component: quorum-key-manager
 {{- end -}}
 
 {{/*
@@ -195,17 +188,6 @@ Define serviceAccountName name for api
 
 
 {{/*
-Define serviceAccountName name for keyManager
-*/}}
-{{- define "orchestrate.keyManager.serviceAccountName" -}}
-{{- if .Values.keyManager.serviceAccount.create }}
-{{- default (include "orchestrate.keyManager.fullname" .) .Values.keyManager.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.keyManager.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-{{/*
 Define serviceAccountName name for tx-listener
 */}}
 {{- define "orchestrate.txListener.serviceAccountName" -}}
@@ -227,14 +209,15 @@ Define serviceAccountName name for tx-sender
 {{- end }}
 {{- end }}
 
-{{/* Default key manager HTTP URL */}}
-{{- define "orchestrate.keyManager.defaultHTTPURL" -}}
-{{- printf "http://%s:%d" (include "orchestrate.keyManager.fullname" .) (int .Values.keyManager.service.http.port) -}}
+
+{{/* Default QuorumKeyManager URL */}}
+{{- define "qkm.defaultHTTPURL" -}}
+{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.name) (int .Values.qkm.port) -}}
 {{- end }}
 
-{{/* Default key manager Metrics URL */}}
-{{- define "orchestrate.keyManager.defaultMetricsURL" -}}
-{{- printf "http://%s:%d" (include "orchestrate.keyManager.fullname" .) (int .Values.keyManager.service.metrics.port) -}}
+{{/* Default QuorumKeyManager Metrics URL */}}
+{{- define "qkm.defaultMetricsURL" -}}
+{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.name) (int .Values.qkm.port) -}}
 {{- end }}
 
 {{/* Default api HTTP URL */}}
