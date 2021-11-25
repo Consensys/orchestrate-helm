@@ -212,12 +212,12 @@ Define serviceAccountName name for tx-sender
 
 {{/* Default QuorumKeyManager URL */}}
 {{- define "qkm.defaultHTTPURL" -}}
-{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.name) (int .Values.qkm.port) -}}
+{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.fullname) (int .Values.qkm.port) -}}
 {{- end }}
 
 {{/* Default QuorumKeyManager Metrics URL */}}
 {{- define "qkm.defaultMetricsURL" -}}
-{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.name) (int .Values.qkm.port) -}}
+{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.fullname) (int .Values.qkm.port) -}}
 {{- end }}
 
 {{/* Default api HTTP URL */}}
