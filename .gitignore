@@ -10,3 +10,4 @@
 
 # Visual Code Studio
 .vscode
+*.sh
