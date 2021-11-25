@@ -23,7 +23,7 @@ metadata:
   name: {{ template "orchestrate.api.fullname" . }}-hook-secretmap
   annotations:
     {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install, pre_update
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
   labels:
@@ -43,7 +43,7 @@ metadata:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
     {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install, pre_update
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:

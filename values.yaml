@@ -33,7 +33,6 @@ global:
   serviceMonitor:
     enabled: false
 
-
 api:
   enabled: true
 
@@ -107,6 +106,12 @@ api:
   # 'existingSecret' specifies name of externally created secret
   # existingSecret:
 
+  auth:
+    jwt:
+      issuerUrl: https://consensys.eu.auth0.com
+      audience: https://orchestrate.consensys.net
+      claims: https://api.orchestrate.network
+
 migrate:
   backoffLimit: 6
   environment: {}
@@ -119,7 +124,11 @@ qkm:
   enabled: true
   proto: https
   fullname: "quorumkeymanager"
+  url: ""
   port: 8080
+  orchestrate:
+    storeName: "orchestrate-eth"
+    apiKey: YWRtaW4tdXNlcg==
 
 txListener:
   enabled: true
@@ -173,7 +182,7 @@ test:
   enabled: false
   image:
     repository: docker.consensys.net/priv/orchestrate-e2e
-    tag: v21.1.5
+    tag: v21.1.8
   cmd: e2e
   environment: {}
   environmentSecrets: {}
