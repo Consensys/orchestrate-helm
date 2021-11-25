@@ -121,7 +121,9 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.environment`                                        | Environment variables passed to Orchestrate API containers                                                             | `{}`                |
 | `api.environmentSecrets`                                 | Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`                |
 | `api.existingSecret`                                     | If specified, extra environment variables will be added from externally created secret                                 | `nil`               |
-| `migrate.enabled`                                | Run migration job                                                                                       | `true`              |
+| `api.auth.jwt.issuerUrl`                                     | Jwt token issuer. is mapped to `AUTH_JWT_ISSUER_URL`                                | ""              |
+| `api.auth.jwt.audience`                                      | Jwt token audience. is mapped to `AUTH_JWT_AUDIENCE`                               | ""              |
+| `api.auth.jwt.claims`                                    | Jwt token specific claims for orchestrate is mapped to `AUTH_JWT_ORCHESTRATE_CLAIMS`                                | ""               |
 | `migrate.backoffLimit`                           | Number of retries before considering the  migration as failed                             | `6`                 |
 | `migrate.environment`                                        | Migration Environment variables passed to Orchestrate API containers                                                             | `{}`    |
 | `migrate.environmentSecrets`                                 | Migration Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`            |
@@ -130,8 +132,11 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 
 | Parameter                                | Description                                                                                                            | Default     |
 |------------------------------------------|------------------------------------------------------------------------------------------------------------------------|-------------|
-| `qkm.enabled`                     | Deploy Quorum Key Manager                                                                                                     | `true`      |
-| `qkm.fullname`                     | Name Manager                                                                                                     | `quorumkeymanager`      |
+| `qkm.enabled`                     | Deploy Quorum Key Manager                           | `true`      |
+| `qkm.url`                     | Quorum Key Manager url, if not provided will be `fullname`.`namespace`                         | ""      |
+| `qkm.fullname`                     | Name                      | `quorumkeymanager`      |
+| `qkm.orchestrate.storeName`                     | Store name of orchestrate keys in the key manager                        | "orchestrate-eth"      |
+| `qkm.orchestrate.apiKey`                     | Secret value (base64 encoded) of the apiKey to authenticate orchestrate with key manager Manager                                     | `YWRtaW4tdXNlcg==`      |
 
 Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detailed configuration options of Quorum key manager when deployed
 
