@@ -18,7 +18,7 @@ global:
     password: sillyness
 
   image:
-    repository: docker.consensys.net/priv/orchestrate
+    repository: consensys/orchestrate
     tag: v21.1.5
     pullPolicy: IfNotPresent
 
@@ -107,11 +107,13 @@ api:
   # 'existingSecret' specifies name of externally created secret
   # existingSecret:
 
-  initMigrate:
-    enabled: true
-    backoffLimit: 6
-  migrate:
-    enabled: true
+migrate:
+  backoffLimit: 6
+  environment: {}
+  environmentSecrets: {}
+  # 'existingSecret' specifies name of externally created secret
+  # existingSecret:
+
 
 qkm:
   enabled: true
