@@ -110,13 +110,6 @@ Labels for api
 app.kubernetes.io/component: api
 {{- end -}}
 
-{{/*
-Labels for QuorumKeyManager
-*/}}
-{{- define "qkm.labels" -}}
-{{ include "orchestrate.labels" . }}
-app.kubernetes.io/component: quorum-key-manager
-{{- end -}}
 
 {{/*
 Labels for tx-listener
@@ -150,13 +143,6 @@ SelectorLabels for api
 app.kubernetes.io/component: api
 {{- end -}}
 
-{{/*
-SelectorLabels for QuorumKeyManager
-*/}}
-{{- define "qkm.selectorLabels" -}}
-{{ include "orchestrate.selectorLabels" . }}
-app.kubernetes.io/component: quorum-key-manager
-{{- end -}}
 
 {{/*
 SelectorLabels for tx-listener
@@ -209,16 +195,6 @@ Define serviceAccountName name for tx-sender
 {{- end }}
 {{- end }}
 
-
-{{/* Default QuorumKeyManager URL */}}
-{{- define "qkm.defaultHTTPURL" -}}
-{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.fullname) (int .Values.qkm.port) -}}
-{{- end }}
-
-{{/* Default QuorumKeyManager Metrics URL */}}
-{{- define "qkm.defaultMetricsURL" -}}
-{{- printf "%s://%s:%d" ( .Values.qkm.proto) (.Values.qkm.fullname) (int .Values.qkm.port) -}}
-{{- end }}
 
 {{/* Default api HTTP URL */}}
 {{- define "orchestrate.api.defaultHTTPURL" -}}

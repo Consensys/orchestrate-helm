@@ -15,6 +15,4 @@ data:
 {{- range $key,$value := .Values.api.environment }}
   {{ $key }}: {{ $value | quote }}
 {{- end }}
-  KEY_MANAGER_URL: {{ .Values.api.environment.KEY_MANAGER_URL | default (include "qkm.defaultHTTPURL" .) | quote }}
-  KEY_MANAGER_METRICS_URL: {{ .Values.api.environment.KEY_MANAGER_METRICS_URL | default (include "qkm.defaultMetricsURL" .) | quote }}
 {{- end }}

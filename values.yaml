@@ -33,6 +33,16 @@ global:
   serviceMonitor:
     enabled: false
 
+  tls:
+    qkm:
+      enabled: true
+      client:
+        enabled: true
+        secretName: quorumkeymanager-certs
+        ca: ""
+        key: ""
+        crt: ""
+
 api:
   enabled: true
 
@@ -118,17 +128,6 @@ migrate:
   environmentSecrets: {}
   # 'existingSecret' specifies name of externally created secret
   # existingSecret:
-
-
-qkm:
-  enabled: true
-  proto: https
-  fullname: "quorumkeymanager"
-  url: ""
-  port: 8080
-  orchestrate:
-    storeName: "orchestrate-eth"
-    apiKey: YWRtaW4tdXNlcg==
 
 txListener:
   enabled: true

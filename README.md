@@ -76,8 +76,8 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.nameOverride`              | String to partially override orchestrate.fullname template with a string (will prepend the release name) | `nil`                                                       |
 | `global.fullnameOverride`          | String to fully override orchestrate.fullname template with a string                                     | `nil`                                                       |
 | `global.labels`                    | Labels to add to all deploye                                                                             | `{}`                                                        |
-| `global.environment`               | Common environment variables for the API, Key Manager, Tx sender, Tx listener                            | `{}`                                                        |
-| `global.environmentSecrets`        | Common environment variables (as Kubernetes secrets)  for the API, Key Manager, Tx sender, Tx listener   | `{}`                                                        |
+| `global.environment`               | Common environment variables for the API, Tx sender, Tx listener                            | `{}`                                                        |
+| `global.environmentSecrets`        | Common environment variables (as Kubernetes secrets)  for the API, Tx sender, Tx listener   | `{}`                                                        |
 | `global.existingSecret`            | If specified, extra environment variables will be added from externally created secret                   | `nil`                                                       |
 | `global.imageCredentials.create`   | If true, create a secret containing the image credentials                                                | `false`                                                     |
 | `global.imageCredentials.name`     | Name of the secret                                                                                       | `existing-secret`                                           |
@@ -88,6 +88,10 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.image.tag`                 | Orchestrate image tag                                                                                    | `v21.1.5`                                                   |
 | `global.image.pullPolicy`          | Orchestrate image pull policy                                                                            | `IfNotPresent`                                              |
 | `global.serviceMonitor.enabled`    | If true, create a ServiceMonior for prometheus operator                                                  | `false`                                                     |
+| `global.qkm.tls.enabled`    | Enables communication with a tls qkm                                                  | `true`                                                     |
+| `global.qkm.tls.client.ca`    | The qkm client CA                                                  | ""                                                    |
+| `global.qkm.tls.client.key`    | The qkm client key                                                 | ""                                                  |
+| `global.qkm.tls.client.crt`    | The qkm client crt                                                  | ""                                                    |
 
 ### API parameters
 
@@ -128,18 +132,6 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `migrate.environment`                                        | Migration Environment variables passed to Orchestrate API containers                                                             | `{}`    |
 | `migrate.environmentSecrets`                                 | Migration Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`            |
 
-### Quorum Key Manager parameters
-
-| Parameter                                | Description                                                                                                            | Default     |
-|------------------------------------------|------------------------------------------------------------------------------------------------------------------------|-------------|
-| `qkm.enabled`                     | Deploy Quorum Key Manager                           | `true`      |
-| `qkm.url`                     | Quorum Key Manager url, if not provided will be `fullname`.`namespace`                         | ""      |
-| `qkm.fullname`                     | Name                      | `quorumkeymanager`      |
-| `qkm.orchestrate.storeName`                     | Store name of orchestrate keys in the key manager                        | "orchestrate-eth"      |
-| `qkm.orchestrate.apiKey`                     | Secret value (base64 encoded) of the apiKey to authenticate orchestrate with key manager Manager                                     | `YWRtaW4tdXNlcg==`      |
-
-Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detailed configuration options of Quorum key manager when deployed
-
 
 ### Tx Sender parameters
 
@@ -152,7 +144,7 @@ Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detaile
 | `txSender.serviceAccount.create`      | If true, create a service account                                                                                      | `false`     |
 | `txSender.serviceAccount.annotations` | Annotations for service account                                                                                        | `{}`        |
 | `txSender.serviceAccount.name`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `txSender.podAnnotations`             | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
+| `txSender.podAnnotations`             | Annotations to add to the Orchestrate Tx Sender's pods                                                               | `{}`        |
 | `txSender.podSecurityContext`         | Pod security context                                                                                                   | `{}`        |
 | `txSender.securityContext`            | Container security context                                                                                             | `{}`        |
 | `txSender.resources.limits`           | The resources limits for Orchestrate Tx Sender containers                                                              | `{}`        |
@@ -161,7 +153,7 @@ Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detaile
 | `txSender.tolerations`                | Tolerations for pod assignment                                                                                         | `[]`        |
 | `txSender.affinity`                   | Affinity for pod assignment                                                                                            | `{}`        |
 | `txSender.environment`                | Environment variables passed to Orchestrate Tx Sender containers                                                       | `{}`        |
-| `txSender.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
+| `txSender.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Tx Sender containers                             | `{}`        |
 | `txSender.existingSecret`             | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
 
 ### Tx Lisener parameters
@@ -175,7 +167,7 @@ Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detaile
 | `txListener.serviceAccount.create`      | If true, create a service account                                                                                      | `false`     |
 | `txListener.serviceAccount.annotations` | Annotations for service account                                                                                        | `{}`        |
 | `txListener.serviceAccount.name`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `txListener.podAnnotations`             | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
+| `txListener.podAnnotations`             | Annotations to add to the Orchestrate Tx Listener's pods                                                               | `{}`        |
 | `txListener.podSecurityContext`         | Pod security context                                                                                                   | `{}`        |
 | `txListener.securityContext`            | Container security context                                                                                             | `{}`        |
 | `txListener.resources.limits`           | The resources limits for Orchestrate Tx Listener containers                                                            | `{}`        |
@@ -199,6 +191,10 @@ Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detaile
 | `test.environmentSecrets`  | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | `{}`                                                            |
 | `test.report.enabled`      | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | `false`                                                         |
 | `test.report.storageClass` | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | ``                                                              |
+
+### Quorum Key Manager
+
+Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detailed configuration options of Quorum key manager when deployed
 
 
 ```console

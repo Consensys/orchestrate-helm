@@ -16,8 +16,6 @@ data:
 {{- end }}
   API_URL: {{ .Values.test.environment.API_URL | default (include "orchestrate.api.defaultHTTPURL" .) | quote }}
   API_METRICS_URL: {{ .Values.test.environment.API_METRICS_URL | default (include "orchestrate.api.defaultMetricsURL" .) | quote }}
-  KEY_MANAGER_URL: {{ .Values.test.environment.KEY_MANAGER_URL | default (include "qkm.defaultHTTPURL" .) | quote }}
-  KEY_MANAGER_METRICS_URL: {{ .Values.test.environment.KEY_MANAGER_METRICS_URL | default (include "qkm.defaultMetricsURL" .) | quote }}
   TX_LISTENER_METRICS_URL: {{ .Values.test.environment.TX_LISTENER_METRICS_URL | default (include "orchestrate.txListener.defaultMetricsURL" .) | quote }}
   TX_SENDER_METRICS_URL: {{ .Values.test.environment.TX_SENDER_METRICS_URL | default (include "orchestrate.txSender.defaultMetricsURL" .) | quote }}
 {{- end }}

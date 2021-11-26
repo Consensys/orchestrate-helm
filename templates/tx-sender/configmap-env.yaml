@@ -17,6 +17,4 @@ data:
 {{- end }}
   API_URL: {{ .Values.txSender.environment.API_URL | default (include "orchestrate.api.defaultHTTPURL" .) | quote }}
   API_METRICS_URL: {{ .Values.txSender.environment.API_METRICS_URL | default (include "orchestrate.api.defaultMetricsURL" .) | quote }}
-  KEY_MANAGER_URL: {{ .Values.txSender.environment.KEY_MANAGER_URL | default (include "qkm.defaultHTTPURL" .) | quote }}
-  KEY_MANAGER_METRICS_URL: {{ .Values.txSender.environment.KEY_MANAGER_METRICS_URL | default (include "qkm.defaultMetricsURL" .) | quote }}
 {{- end }}
