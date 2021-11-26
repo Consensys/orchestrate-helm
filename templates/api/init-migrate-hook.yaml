@@ -60,29 +60,7 @@ spec:
         - name: {{ include "orchestrate.imagePullSecretName" . }}
       {{- end }}
       containers:
-        - name: {{ template "orchestrate.api.fullname" . }}-initdb
-          image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
-          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
-          command:
-            - /go/bin/main
-          args:
-            - api
-            - migrate
-            - init
-          envFrom:
-            - configMapRef:
-                name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
-            {{- if .Values.migrate.environmentSecrets }}
-            - secretRef:
-                name: {{ include "orchestrate.api.fullname" . }}-hook-secretmap
-                optional: true
-            {{- end }}
-            {{- if .Values.migrate.existingSecret }}
-            - secretRef:
-                name: {{ .Values.migrate.existingSecret }}
-                optional: true
-            {{- end }}
-        - name: {{ template "orchestrate.api.fullname" . }}-updb
+        - name: {{ template "orchestrate.api.fullname" . }}-init-up-db
           image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           command:
