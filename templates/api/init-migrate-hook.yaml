@@ -1,39 +1,3 @@
-{{- if and .Values.api.enabled }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
-  annotations:
-    {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "5"
-    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
-  labels:
-    {{- include "orchestrate.api.labels" . | nindent 4 }}
-data:
-{{- range $key,$value := .Values.api.environment }}
-  {{ $key }}: {{ $value | quote }}
-{{- end }}
-{{- if and .Values.api.enabled .Values.api.environmentSecrets }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ template "orchestrate.api.fullname" . }}-hook-secretmap
-  annotations:
-    {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": pre-install, pre_update
-    "helm.sh/hook-weight": "5"
-    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
-  labels:
-    {{- include "orchestrate.api.labels" . | nindent 4 }}
-type: Opaque
-data:
-{{- range $key,$value := .Values.api.environmentSecrets }}
-  {{ $key }}: {{ $value | b64enc | quote }}
-{{- end }}
-{{- end }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -71,10 +35,10 @@ spec:
             - up
           envFrom:
             - configMapRef:
-                name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
+                name: {{ include "orchestrate.api.fullname" . }}-envmap
             {{- if .Values.migrate.environmentSecrets }}
             - secretRef:
-                name: {{ include "orchestrate.api.fullname" . }}-hook-secretmap
+                name: {{ include "orchestrate.api.fullname" . }}-secretmap
                 optional: true
             {{- end }}
             {{- if .Values.api.existingSecret }}
@@ -82,4 +46,4 @@ spec:
                 name: {{ .Values.migrate.existingSecret }}
                 optional: true
             {{- end }}
-{{- end }}
+
