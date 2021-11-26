@@ -73,6 +73,18 @@ spec:
               port: http-metrics
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.global.tls.enabled }}
+            - name: qkm-certs
+              mountPath: /certificates
+              readOnly: true
+          {{- end }}      
+      volumes:
+      {{- if .Values.global.tls.enabled }}
+        - name: qkm-certs
+          secret:
+            secretName: {{ .Values.global.tls.client.secretName }}
+      {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

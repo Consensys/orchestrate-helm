@@ -78,6 +78,18 @@ spec:
             periodSeconds: 3
           resources:
             {{- toYaml .Values.txSender.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.global.tls.enabled }}
+            - name: qkm-certs
+              mountPath: /certificates
+              readOnly: true
+          {{- end }}      
+      volumes:
+      {{- if .Values.global.tls.enabled }}
+        - name: qkm-certs
+          secret:
+            secretName: {{ .Values.global.tls.client.secretName }}
+      {{- end }}
       {{- with .Values.txSender.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
