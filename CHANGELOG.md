@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.6 (2021-12-03)
+### 🛠 Bug fixes
+- Triggers vault agent restart on every key-manager restart so token is always available
+
+## v1.0.6 (2021-11-29)
+### 🛠 Bug fixes
+ * Remove KEy_MANAGER environment variables when service is disabled
+
 ## v1.0.5 (2021-08-27)
 ### 🛠 Bug fixes
  * Remove duplicated labels in helpers for kutomize v4
