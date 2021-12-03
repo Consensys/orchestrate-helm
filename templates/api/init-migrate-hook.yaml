@@ -7,7 +7,7 @@ metadata:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
     {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": pre-install, pre_update
+    "helm.sh/hook": post-install
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
