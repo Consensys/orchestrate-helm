@@ -50,7 +50,6 @@ spec:
                 agent_pid=$!
               }
               function stop_agent() {
-                rm -f /vault/token/reboot
                 kill -15 ${agent_pid}
               }
               # Main
