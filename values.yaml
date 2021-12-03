@@ -19,7 +19,7 @@ global:
 
   image:
     repository: consensys/orchestrate
-    tag: v21.1.5
+    tag: v21.10.1
     pullPolicy: IfNotPresent
 
   ## String to partially override prometheus.fullname template (will maintain the release name)
