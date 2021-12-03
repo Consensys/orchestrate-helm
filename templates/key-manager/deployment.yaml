@@ -38,10 +38,26 @@ spec:
               add:
               - IPC_LOCK
           image: "{{ .Values.keyManager.vaultAgent.image.repository }}:{{ .Values.keyManager.vaultAgent.image.tag }}"
+          command: [ "/bin/sh" ]
           args:
-            - "agent"
-            - "-config"
-            - "/vault/config/agent-config.hcl"
+            - "-c"
+            - |
+              set -e
+              cfg=/vault/config/agent-config.hcl
+              agent_pid=
+              function start_agent() {
+                /usr/local/bin/docker-entrypoint.sh agent -config ${cfg} &
+                agent_pid=$!
+              }
+              function stop_agent() {
+                kill -15 ${agent_pid}
+              }
+              # Main
+              while :; do
+               start_agent
+               echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -p 9999
+               stop_agent
+              done
           env:
             - name: SKIP_CHOWN
               value: "true"
@@ -94,6 +110,11 @@ spec:
             - name: http-metrics
               containerPort: 8082
               protocol: TCP
+          lifecycle:
+            postStart:
+              httpGet:
+                port: 9999
+                path: /
           livenessProbe:
             httpGet:
               path: /live
