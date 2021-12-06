@@ -7,7 +7,7 @@ metadata:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
     {{- include "orchestrate.annotations" . | nindent 4 }}
-    "helm.sh/hook": post-install
+    "helm.sh/hook": pre-install, pre-update
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
@@ -35,10 +35,10 @@ spec:
             - up
           envFrom:
             - configMapRef:
-                name: {{ include "orchestrate.api.fullname" . }}-envmap
+                name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
             {{- if .Values.migrate.environmentSecrets }}
             - secretRef:
-                name: {{ include "orchestrate.api.fullname" . }}-secretmap
+                name: {{ include "orchestrate.api.fullname" . }}-hook-secretmap
                 optional: true
             {{- end }}
             {{- if .Values.api.existingSecret }}
