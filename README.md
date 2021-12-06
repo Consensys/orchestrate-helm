@@ -60,7 +60,8 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Orchestrate-Helm versions | Orchestrate versions          |
 |---------------------------|-------------------------------|
-| master/HEAD               | Orchestrate v21.1.x or higher |
+| master/HEAD               | Orchestrate v21.10.x or higher |
+| v2.0.0                    | Orchestrate v21.10.x or higher |
 | v1.0.0                    | Orchestrate v21.1.x or higher |
 
 For older versions of Orchestrate please see https://github.com/ConsenSys/orchestrate-helm-worker and https://github.com/ConsenSys/orchestrate-helm-api
