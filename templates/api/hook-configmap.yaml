@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "orchestrate.api.fullname" . }}-envmap
+  name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
   labels:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
@@ -14,9 +14,5 @@ data:
 {{- end }}
 {{- range $key,$value := .Values.api.environment }}
   {{ $key }}: {{ $value | quote }}
-{{- end }}
-{{- if .Values.keyManager.enabled }}
-  KEY_MANAGER_URL: {{ .Values.api.environment.KEY_MANAGER_URL | default (include "orchestrate.keyManager.defaultHTTPURL" .) | quote }}
-  KEY_MANAGER_METRICS_URL: {{ .Values.api.environment.KEY_MANAGER_METRICS_URL | default (include "orchestrate.keyManager.defaultMetricsURL" .) | quote }}
 {{- end }}
 {{- end }}
