@@ -68,7 +68,7 @@ spec:
           args:
             - api
             - migrate
-            - init
+            - up
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.api.fullname" . }}-hook-envmap
@@ -82,61 +82,4 @@ spec:
                 name: {{ .Values.api.existingSecret }}
                 optional: true
             {{- end }}
-{{- end }}
-{{- if and .Values.api.enabled .Values.api.copyDB.enabled .Values.api.copyDB.params }}
-{{ $global := . }}
-{{- range $key, $val :=  .Values.api.copyDB.params }}
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: {{ template "orchestrate.api.fullname" $global }}-copy-db-{{ kebabcase $key }}
-  labels:
-    {{- include "orchestrate.api.labels" $global | nindent 4 }}
-  annotations:
-    {{- include "orchestrate.annotations" $global | nindent 4 }}
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "10"
-    "helm.sh/hook-delete-policy": hook-succeeded
-spec:
-  backoffLimit: {{ $global.Values.api.copyDB.backoffLimit }}
-  template:
-    metadata:
-      name: copy-db
-      labels:
-        {{- include "orchestrate.api.labels" $global | nindent 8 }}
-    spec:
-      restartPolicy: Never
-      {{- if $global.Values.global.imageCredentials }}
-      imagePullSecrets:
-        - name: {{ include "orchestrate.imagePullSecretName" $global }}
-      {{- end }}
-      containers:
-        - name: {{ template "orchestrate.api.fullname" $global }}-initdb
-          image: "{{ $global.Values.global.image.repository }}:{{ $global.Values.global.image.tag }}"
-          imagePullPolicy: {{ $global.Values.global.image.pullPolicy }}
-          command:
-            - /go/bin/main
-          args:
-            - api
-            - migrate
-            - copy-db
-          env:
-            - name: DB_MIGRATION_SERVICE
-              value: {{ kebabcase $key | quote }}
-            - name: DB_MIGRATION_ADDRESS
-              value: {{ $val.postgresAddress | quote }}
-            - name: DB_MIGRATION_DATABASE
-              value: {{ $val.database | quote }}
-            - name: DB_MIGRATION_USERNAME
-              value: {{ $val.username | quote }}
-            - name: DB_MIGRATION_PASSWORD
-              value: {{ $val.password | quote }}
-          envFrom:
-            - configMapRef:
-                name: {{ include "orchestrate.api.fullname" $global }}-envmap
-            - secretRef:
-                name: {{ include "orchestrate.api.fullname" $global }}-secretmap
-                optional: true
-{{- end }}
 {{- end }}
