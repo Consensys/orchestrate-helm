@@ -9,4 +9,4 @@ icon: https://docs.orchestrate.consensys.net/en/stable/images/logo.svg
 maintainers:
   - name: christian.tran
   - name: sylvain.decourval
-appVersion: 21.10.1
+appVersion: v21.11.0
