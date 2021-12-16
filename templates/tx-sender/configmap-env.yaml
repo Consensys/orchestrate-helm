@@ -18,3 +18,4 @@ data:
   API_URL: {{ .Values.txSender.environment.API_URL | default (include "orchestrate.api.defaultHTTPURL" .) | quote }}
   API_METRICS_URL: {{ .Values.txSender.environment.API_METRICS_URL | default (include "orchestrate.api.defaultMetricsURL" .) | quote }}
 {{- end }}
+{{- end }}
