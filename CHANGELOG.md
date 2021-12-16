@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 (2021-12-16)
+ * Remove previous usage of keyManager component
+ * Update Ingress api version to networking.k8s.io/v1
+### 🛠 Bug fixes
+ * Fixed Migration issues
+ * Add 
+
 ## v1.0.5 (2021-08-27)
 ### 🛠 Bug fixes
  * Remove duplicated labels in helpers for kutomize v4
