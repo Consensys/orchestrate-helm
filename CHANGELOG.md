@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 (2021-12-16)
+ * Remove previous usage of keyManager component
+ * Add support for Quorum Key Manager
+ * Update Ingress api version to networking.k8s.io/v1
+### 🛠 Bug fixes
+ * Fixed Migration issues
+ * Add 
+
 ## v1.0.6 (2021-12-03)
 ### 🛠 Bug fixes
 - Triggers vault agent restart on every key-manager restart so token is always available

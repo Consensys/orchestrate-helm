@@ -1,0 +1,16 @@
+{{- if .Values.global.tls.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: quorumkeymanager-certs
+  labels:
+    {{- include "orchestrate.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+type: Opaque
+data:
+  ca.crt: {{ .Values.global.tls.client.ca | b64enc | quote }}
+  client.crt: {{ .Values.global.tls.client.crt | b64enc | quote }}
+  client.key: {{ .Values.global.tls.client.key | b64enc | quote }}
+{{- end }}

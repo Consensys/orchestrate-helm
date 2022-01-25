@@ -60,7 +60,8 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Orchestrate-Helm versions | Orchestrate versions          |
 |---------------------------|-------------------------------|
-| master/HEAD               | Orchestrate v21.1.x or higher |
+| master/HEAD               | Orchestrate v21.10.x or higher |
+| v2.0.0                    | Orchestrate v21.10.x or higher |
 | v1.0.0                    | Orchestrate v21.1.x or higher |
 
 For older versions of Orchestrate please see https://github.com/ConsenSys/orchestrate-helm-worker and https://github.com/ConsenSys/orchestrate-helm-api
@@ -76,8 +77,8 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.nameOverride`              | String to partially override orchestrate.fullname template with a string (will prepend the release name) | `nil`                                                       |
 | `global.fullnameOverride`          | String to fully override orchestrate.fullname template with a string                                     | `nil`                                                       |
 | `global.labels`                    | Labels to add to all deploye                                                                             | `{}`                                                        |
-| `global.environment`               | Common environment variables for the API, Key Manager, Tx sender, Tx listener                            | `{}`                                                        |
-| `global.environmentSecrets`        | Common environment variables (as Kubernetes secrets)  for the API, Key Manager, Tx sender, Tx listener   | `{}`                                                        |
+| `global.environment`               | Common environment variables for the API, Tx sender, Tx listener                            | `{}`                                                        |
+| `global.environmentSecrets`        | Common environment variables (as Kubernetes secrets)  for the API, Tx sender, Tx listener   | `{}`                                                        |
 | `global.existingSecret`            | If specified, extra environment variables will be added from externally created secret                   | `nil`                                                       |
 | `global.imageCredentials.create`   | If true, create a secret containing the image credentials                                                | `false`                                                     |
 | `global.imageCredentials.name`     | Name of the secret                                                                                       | `existing-secret`                                           |
@@ -88,6 +89,10 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `global.image.tag`                 | Orchestrate image tag                                                                                    | `v21.1.5`                                                   |
 | `global.image.pullPolicy`          | Orchestrate image pull policy                                                                            | `IfNotPresent`                                              |
 | `global.serviceMonitor.enabled`    | If true, create a ServiceMonior for prometheus operator                                                  | `false`                                                     |
+| `global.qkm.tls.enabled`    | Enables communication with a tls qkm                                                  | `true`                                                     |
+| `global.qkm.tls.client.ca`    | The qkm client CA                                                  | ""                                                    |
+| `global.qkm.tls.client.key`    | The qkm client key                                                 | ""                                                  |
+| `global.qkm.tls.client.crt`    | The qkm client crt                                                  | ""                                                    |
 
 ### API parameters
 
@@ -121,39 +126,13 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.environment`                                        | Environment variables passed to Orchestrate API containers                                                             | `{}`                |
 | `api.environmentSecrets`                                 | Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`                |
 | `api.existingSecret`                                     | If specified, extra environment variables will be added from externally created secret                                 | `nil`               |
-| `api.initMigrate.enabled`                                | Run migration initialization job                                                                                       | `true`              |
-| `api.initMigrate.backoffLimit`                           | Number of retries before considering the initialization migration initialization as failed                             | `6`                 |
-| `api.migrate`                                            | Run migration script                                                                                                   | `true`              |
+| `api.auth.jwt.issuerUrl`                                     | Jwt token issuer. is mapped to `AUTH_JWT_ISSUER_URL`                                | ""              |
+| `api.auth.jwt.audience`                                      | Jwt token audience. is mapped to `AUTH_JWT_AUDIENCE`                               | ""              |
+| `api.auth.jwt.claims`                                    | Jwt token specific claims for orchestrate is mapped to `AUTH_JWT_ORCHESTRATE_CLAIMS`                                | ""               |
+| `migrate.backoffLimit`                           | Number of retries before considering the  migration as failed                             | `6`                 |
+| `migrate.environment`                                        | Migration Environment variables passed to Orchestrate API containers                                                             | `{}`    |
+| `migrate.environmentSecrets`                                 | Migration Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`            |
 
-### Key Manager parameters
-
-| Parameter                                | Description                                                                                                            | Default     |
-|------------------------------------------|------------------------------------------------------------------------------------------------------------------------|-------------|
-| `keyManager.enabled`                     | Deploy Key Manager                                                                                                     | `true`      |
-| `keyManager.replicaCount`                | Number of Orchestrate Key Manager replicas                                                                             | `1`         |
-| `keyManager.service.type`                | Kubernetes Service type                                                                                                | `ClusterIP` |
-| `keyManager.service.http.port`           | Orchestrate Key Manager port                                                                                           | `8081`      |
-| `keyManager.service.metrics.port`        | Orchestrate Key Manager metrics port                                                                                   | `8082`      |
-| `keyManager.serviceAccount.create`       | If true, create a service account                                                                                      | `false`     |
-| `keyManager.serviceAccount.annotations`  | Annotations for service account                                                                                        | `{}`        |
-| `keyManager.serviceAccount.name`         | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `keyManager.podAnnotations`              | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
-| `keyManager.podSecurityContext`          | Pod security context                                                                                                   | `{}`        |
-| `keyManager.securityContext`             | Container security context                                                                                             | `{}`        |
-| `keyManager.resources.limits`            | The resources limits for Orchestrate keyManager containers                                                             | `{}`        |
-| `keyManager.resources.requests`          | The requested resources for Orchestrate keyManager containers                                                          | `{}`        |
-| `keyManager.nodeSelector`                | Node labels for pod assignment                                                                                         | `{}`        |
-| `keyManager.tolerations`                 | Tolerations for pod assignment                                                                                         | `[]`        |
-| `keyManager.affinity`                    | Affinity for pod assignment                                                                                            | `{}`        |
-| `keyManager.environment`                 | Environment variables passed to Orchestrate keyManager containers                                                      | `{}`        |
-| `keyManager.environmentSecrets`          | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
-| `keyManager.existingSecret`              | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
-| `keyManager.migrate`                     | Run import keys from Vault formated with Orchestrate v2.5.X to Orchestrate Vault plugin (used in v21.1.X)              | `false`     |
-| `keyManager.vaultAgent.enabled`          | Run Vault Agent to retrieve the Key Manager client token from Hashicorp Vault                                          | `false`     |
-| `keyManager.vaultAgent.role`             | Role eligible to retrieve a token                                                                                      | `client`    |
-| `keyManager.vaultAgent.image.repository` | Hashicorp Vault image                                                                                                  | `vault`     |
-| `keyManager.vaultAgent.image.tag`        | Hashicorp Vault tag                                                                                                    | `1.6.2`     |
-| `keyManager.vaultAgent.config.wrapTTL`   | Response-wrapped TTL, see https://www.vaultproject.io/docs/agent/autoauth                                              | ``          |
 
 ### Tx Sender parameters
 
@@ -166,7 +145,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `txSender.serviceAccount.create`      | If true, create a service account                                                                                      | `false`     |
 | `txSender.serviceAccount.annotations` | Annotations for service account                                                                                        | `{}`        |
 | `txSender.serviceAccount.name`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `txSender.podAnnotations`             | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
+| `txSender.podAnnotations`             | Annotations to add to the Orchestrate Tx Sender's pods                                                               | `{}`        |
 | `txSender.podSecurityContext`         | Pod security context                                                                                                   | `{}`        |
 | `txSender.securityContext`            | Container security context                                                                                             | `{}`        |
 | `txSender.resources.limits`           | The resources limits for Orchestrate Tx Sender containers                                                              | `{}`        |
@@ -175,7 +154,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `txSender.tolerations`                | Tolerations for pod assignment                                                                                         | `[]`        |
 | `txSender.affinity`                   | Affinity for pod assignment                                                                                            | `{}`        |
 | `txSender.environment`                | Environment variables passed to Orchestrate Tx Sender containers                                                       | `{}`        |
-| `txSender.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Key Manager containers                             | `{}`        |
+| `txSender.environmentSecrets`         | Environment variables (as Kubernetes secrets) passed to Orchestrate Tx Sender containers                             | `{}`        |
 | `txSender.existingSecret`             | If specified, extra environment variables will be added from externally created secret                                 | `nil`       |
 
 ### Tx Lisener parameters
@@ -189,7 +168,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `txListener.serviceAccount.create`      | If true, create a service account                                                                                      | `false`     |
 | `txListener.serviceAccount.annotations` | Annotations for service account                                                                                        | `{}`        |
 | `txListener.serviceAccount.name`        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``          |
-| `txListener.podAnnotations`             | Annotations to add to the Orchestrate Key Manager's pods                                                               | `{}`        |
+| `txListener.podAnnotations`             | Annotations to add to the Orchestrate Tx Listener's pods                                                               | `{}`        |
 | `txListener.podSecurityContext`         | Pod security context                                                                                                   | `{}`        |
 | `txListener.securityContext`            | Container security context                                                                                             | `{}`        |
 | `txListener.resources.limits`           | The resources limits for Orchestrate Tx Listener containers                                                            | `{}`        |
@@ -213,6 +192,10 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `test.environmentSecrets`  | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | `{}`                                                            |
 | `test.report.enabled`      | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | `false`                                                         |
 | `test.report.storageClass` | Environment variables (as Kubernetes secrets) passed to Orchestrate test container | ``                                                              |
+
+### Quorum Key Manager
+
+Please refer to https://github.com/ConsenSys/quorum-key-manager-helm for detailed configuration options of Quorum key manager when deployed
 
 
 ```console
