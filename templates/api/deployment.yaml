@@ -24,6 +24,10 @@ spec:
           {{- toYaml .Values.podAnnotations | nindent 8 }}
         {{- end}}
     spec:
+      {{- if .Values.global.imageCredentials }}
+      imagePullSecrets:
+        - name: {{ include "orchestrate.imagePullSecretName" . }}
+      {{- end }}
       serviceAccountName: {{ include "orchestrate.api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
