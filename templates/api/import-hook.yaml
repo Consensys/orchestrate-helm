@@ -2,18 +2,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "orchestrate.api.fullname" . }}-api-account-import
+  name: {{ template "orchestrate.api.fullname" . }}-account-import
   labels:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
     {{- include "orchestrate.annotations" . | nindent 4 }}
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   backoffLimit: {{ .Values.api.backoffLimit }}
   template:
     metadata:
-      name: api-account-import
+      name: account-import
       labels:
         {{- include "orchestrate.api.labels" . | nindent 8 }}
     spec:
@@ -23,15 +24,15 @@ spec:
         - name: {{ include "orchestrate.imagePullSecretName" . }}
       {{- end }}
       containers:
-        - name: {{ template "orchestrate.api.fullname" . }}-api-account-import
+        - name: {{ template "orchestrate.api.fullname" . }}-account-import
           image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           command:
             - /go/bin/main
           args:
             - api
-            - migrate
-            - up
+            - account
+            - import
           envFrom:
             - configMapRef:
                 name: {{ include "orchestrate.api.fullname" . }}-envmap
