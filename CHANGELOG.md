@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.2 (2022-03-17)
+ * Introduce a new import accounts Job
+
 ## v2.0.1 (2022-02-23)
 ### 🛠 Bug fixes
  * imagePullSecrets was missing in api deployment
