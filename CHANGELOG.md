@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
  * Fixed Migration issues
  * Add 
 
-## v1.0.6 (2021-12-03)
+## v1.0.7 (2021-12-03)
 ### 🛠 Bug fixes
 - Triggers vault agent restart on every key-manager restart so token is always available
 

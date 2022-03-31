@@ -57,9 +57,7 @@ api:
       - host: orchestrate.local
         http:
           paths:
-            - path: /
-              backend:
-                servicePort: http-svc
+            - path: /          
 
     tls: []
     #  - secretName: orchestrate-tls
