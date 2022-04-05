@@ -8,13 +8,17 @@ All notable changes to this project will be documented in this file.
 ## v2.0.1 (2022-02-23)
 ### 🛠 Bug fixes
  * imagePullSecrets was missing in api deployment
+
 ## v2.0.0 (2021-12-16)
  * Remove previous usage of keyManager component
  * Add support for Quorum Key Manager
- * Update Ingress api version to networking.k8s.io/v1
+ * Update Ingress api version to networking.k8s.io/v1 
 ### 🛠 Bug fixes
  * Fixed Migration issues
- * Add 
+
+## v1.0.8 (2021-12-07)
+* Allow users to not define KEY MANAGER envs
+* Separate hook env and pre-install, pre-update
 
 ## v1.0.7 (2021-12-03)
 ### 🛠 Bug fixes
