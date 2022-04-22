@@ -104,7 +104,6 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.ingress.annotations`                                | Ingress annotations                                                                                                    | `{}`                |
 | `api.ingress.hosts[0].host`                              | Hostname to your Orchestrate API                                                                                       | `orchestrate.local` |
 | `api.ingress.hosts[0].http.paths[0].path`                | Path within the url structure                                                                                          | `/`                 |
-| `api.ingress.hosts[0].http.paths[0].backend.servicePort` | Service port to serve                                                                                                  | `http-svc`          |
 | `api.ingress.tls[0].secretName`                          | TLS Secret Name                                                                                                        | `nil`               |
 | `api.ingress.tls[0].hosts`                               | Array of TLS hosts for ingress record                                                                                  | `[]`                |
 | `api.service.type`                                       | Kubernetes Service type                                                                                                | `ClusterIP`         |
