@@ -127,6 +127,11 @@ migrate:
   # 'existingSecret' specifies name of externally created secret
   # existingSecret:
 
+drop:
+  enabled: false
+  backoffLimit: 6
+  # env vars are taken from api, so no specific environment values are needed
+  
 txListener:
   enabled: true
 

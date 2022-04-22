@@ -1,0 +1,46 @@
+{{- if .Values.drop.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "orchestrate.api.fullname" . }}-drop-db-job
+  labels:
+    {{- include "orchestrate.api.labels" . | nindent 4 }}
+  annotations:
+    {{- include "orchestrate.annotations" . | nindent 4 }}
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  backoffLimit: {{ .Values.drop.backoffLimit }}
+  template:
+    metadata:
+      name: drop-db
+      labels:
+        {{- include "orchestrate.api.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ template "orchestrate.api.fullname" . }}-drop-db
+          image: "jbergknoff/postgresql-client:latest"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          args:
+            - >-
+              postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):5432/orchestrate_qa
+            - -c 
+            - "DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO public;"
+          envFrom:
+            - configMapRef:
+                name: {{ include "orchestrate.api.fullname" . }}-envmap
+            {{- if .Values.migrate.environmentSecrets }}
+            - secretRef:
+                name: {{ include "orchestrate.api.fullname" . }}-secretmap
+                optional: true
+            {{- end }}
+            {{- if .Values.api.existingSecret }}
+            - secretRef:
+                name: {{ .Values.migrate.existingSecret }}
+                optional: true
+            {{- end }}            
+{{- end }}
+
