@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.4 (2022-04-22)
+ * New drop database Job on upgrade enabled for QA
+ * New Migrate up Job on upgrade enabled for QA
+
+## v2.0.3 (2022-04-05)
+ * Align service port
+
 ## v2.0.2 (2022-03-17)
  * Introduce a new import accounts Job
 
