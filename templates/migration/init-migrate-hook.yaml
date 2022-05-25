@@ -41,7 +41,7 @@ spec:
                 name: {{ include "orchestrate.api.fullname" . }}-hook-secretmap
                 optional: true
             {{- end }}
-            {{- if .Values.api.existingSecret }}
+            {{- if .Values.migrate.existingSecret }}
             - secretRef:
                 name: {{ .Values.migrate.existingSecret }}
                 optional: true
