@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.7 (2022-05-31)
+ * Migrations are run for every deployment as a Job
+ * Migrations en disappear for API env
+ * All helm hooks triggering have been removed
+ * Import account removed
+
+## v2.0.6 (2022-05-25)
+ * Usage of existing secret with migrations
+
+## v2.0.5 (2022-05-25)
+ * Update app version
+
 ## v2.0.4 (2022-04-22)
  * New drop database Job on upgrade enabled for QA
  * New Migrate up Job on upgrade enabled for QA
