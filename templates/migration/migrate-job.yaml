@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "orchestrate.api.fullname" . }}-migrate-job
+  name: {{ template "orchestrate.api.fullname" . }}-migrate-job-{{ now | date "20060102150405" }}
   labels:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
   annotations:
@@ -12,7 +12,7 @@ spec:
   backoffLimit: {{ .Values.migrate.backoffLimit }}
   template:
     metadata:
-      name: migrate-init
+      name: migrate-job-{{ now | date "20060102150405" }}
       labels:
         {{- include "orchestrate.api.labels" . | nindent 8 }}
     spec:
@@ -22,7 +22,7 @@ spec:
         - name: {{ include "orchestrate.imagePullSecretName" . }}
       {{- end }}
       containers:
-        - name: {{ template "orchestrate.api.fullname" . }}-init-up-db
+        - name: {{ template "orchestrate.api.fullname" . }}-migrate-job
           image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           command:
