@@ -129,8 +129,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.auth.jwt.audience`                                      | Jwt token audience. is mapped to `AUTH_JWT_AUDIENCE`                               | ""              |
 | `api.auth.jwt.claims`                                    | Jwt token specific claims for orchestrate is mapped to `AUTH_JWT_ORCHESTRATE_CLAIMS`                                | ""               |
 | `migrate.backoffLimit`                           | Number of retries before considering the  migration as failed                             | `6`                 |
-| `migrate.environment`                                        | Migration Environment variables passed to Orchestrate API containers                                                             | `{}`    |
-| `migrate.environmentSecrets`                                 | Migration Environment variables (as Kubernetes secrets) passed to Orchestrate API containers                                     | `{}`            |
+| `migrate.ttlSecondsAfterFinished`                           | Time to live before a TTL controller can actually remove the job and its dependencies                             | `120`                 |
 
 
 ### Tx Sender parameters

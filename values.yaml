@@ -122,8 +122,7 @@ api:
 
 migrate:
   backoffLimit: 6
-  environment: {}
-  environmentSecrets: {}
+  ttlSecondsAfterFinished: 120
   # 'existingSecret' specifies name of externally created secret
   # existingSecret:
 
