@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## v2.0.8 (2022-05-31) 
- * Import account removed
+ * Import account conditionnal
  
 ~~## v2.0.7 (2022-05-31)~~ DEPRECATED
 
