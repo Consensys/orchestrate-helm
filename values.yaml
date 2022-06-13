@@ -111,8 +111,7 @@ api:
 
   environment: {}
   environmentSecrets: {}
-  # 'existingSecret' specifies name of externally created secret
-  # existingSecret:
+  existingSecret: {}
 
   auth:
     jwt:
@@ -122,9 +121,6 @@ api:
 
 migrate:
   backoffLimit: 6
-  ttlSecondsAfterFinished: 120
-  # 'existingSecret' specifies name of externally created secret
-  # existingSecret:
 
 drop:
   enabled: false

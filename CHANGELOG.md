@@ -2,11 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## v2.0.7 (2022-05-31)
- * Migrations are run for every deployment as a Job
- * Migrations env disappear for API env
- * All helm hooks triggering have been removed
+## v2.0.8 (2022-05-31) 
  * Import account removed
+ 
+~~## v2.0.7 (2022-05-31)~~ DEPRECATED
 
 ## v2.0.6 (2022-05-25)
  * Usage of existing secret with migrations
