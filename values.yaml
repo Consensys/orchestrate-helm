@@ -126,10 +126,6 @@ drop:
   enabled: false
   backoffLimit: 6
   # env vars are taken from api, so no specific environment values are needed
-
-import:
-  enabled: false
-  backoffLimit: 6
   
 txListener:
   enabled: true
