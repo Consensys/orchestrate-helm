@@ -5,8 +5,6 @@ metadata:
   name: {{ template "orchestrate.api.fullname" . }}-account-import
   labels:
     {{- include "orchestrate.api.labels" . | nindent 4 }}
-  annotations:
-    {{- include "orchestrate.annotations" . | nindent 4 }}
 spec:
   backoffLimit: {{ .Values.api.backoffLimit }}
   template:
