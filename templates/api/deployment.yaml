@@ -31,13 +31,6 @@ spec:
       serviceAccountName: {{ include "orchestrate.api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
-      initContainers:
-      - name: {{ include "orchestrate.api.fullname" . }}-init
-        image: "groundnuty/k8s-wait-for:1.3"
-        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
-        args: 
-        - "job"
-        - "{{ template "orchestrate.api.fullname" . }}-migrate-job-{{ now | date "20060102150405" }}"
       containers:
         - name: api
           securityContext:
