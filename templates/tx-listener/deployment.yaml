@@ -62,7 +62,7 @@ spec:
             - run
           ports:
             - name: http-svc
-              containerPort: 8081
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:

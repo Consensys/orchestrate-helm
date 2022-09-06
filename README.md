@@ -109,8 +109,7 @@ The following tables lists the configurable parameters of the Orchestrate chart 
 | `api.service.type`                                       | Kubernetes Service type                                                                                                | `ClusterIP`         |
 | `api.service.sessionAffinity`                            | Session Affinity for sticky sessions                                                                                   | `ClientIP`          |
 | `api.service.sessionAffinityTimeout`                     | Timeout for session affinity                                                                                           | `10`                |
-| `api.service.http.port`                                  | Orchestrate API port                                                                                                   | `8081`              |
-| `api.service.metrics.port`                               | Orchestrate API metrics port                                                                                           | `8082`              |
+| `api.service.http.port`                                  | Orchestrate API port                                                                                                   | `8080`              |
 | `api.serviceAccount.create`                              | If true, create a service account                                                                                      | `false`             |
 | `api.serviceAccount.annotations`                         | Annotations for service account                                                                                        | `{}`                |
 | `api.serviceAccount.name`                                | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | ``                  |
