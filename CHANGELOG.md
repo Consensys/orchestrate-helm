@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.0.0 (2022-09-05) 
+ * Removal of metrics port
+ * Liveness and readiness now on Service port
+
 ## v2.0.8 (2022-05-31) 
  * Import account removed
  

@@ -62,19 +62,16 @@ spec:
             - run
           ports:
             - name: http-svc
-              containerPort: 8081
-              protocol: TCP
-            - name: http-metrics
-              containerPort: 8082
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /live
-              port: http-metrics
+              port: http-svc
           readinessProbe:
             httpGet:
               path: /ready
-              port: http-metrics
+              port: http-svc
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
           volumeMounts:

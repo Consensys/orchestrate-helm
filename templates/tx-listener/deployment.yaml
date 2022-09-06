@@ -61,19 +61,19 @@ spec:
             - tx-listener
             - run
           ports:
-            - name: http-metrics
-              containerPort: 8082
+            - name: http-svc
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /live
-              port: http-metrics
+              port: http-svc
             initialDelaySeconds: 3
             periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /ready
-              port: http-metrics
+              port: http-svc
             initialDelaySeconds: 3
             periodSeconds: 3
           resources:

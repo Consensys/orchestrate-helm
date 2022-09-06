@@ -69,7 +69,7 @@ api:
     sessionAffinity: ClientIP
     sessionAffinityTimeout: 10
     http:
-      port: 8081
+      port: 8080
     metrics:
       port: 8082
 
