@@ -19,6 +19,8 @@ workflows:
             branches:
               only: /.*/
       - push:
+          context:
+            - cloudsmith-protocols
           requires:
             - lint
           filters:
