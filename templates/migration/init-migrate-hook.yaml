@@ -1,3 +1,4 @@
+{{- if .Values.api.enabled }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -46,4 +47,4 @@ spec:
                 name: {{ .Values.api.existingSecret }}
                 optional: true
             {{- end }}
-
+{{- end }}
