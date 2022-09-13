@@ -10,10 +10,10 @@ metadata:
 spec:
   type: {{ .Values.txListener.service.type }}
   ports:
-    - port: {{ .Values.txListener.service.metrics.port }}
-      targetPort: http-metrics
+    - port: {{ .Values.txListener.service.http.port }}
+      targetPort: http-svc
       protocol: TCP
-      name: http-metrics
+      name: http-svc
   selector:
     {{- include "orchestrate.txListener.selectorLabels" . | nindent 4 }}
 {{- end }}
